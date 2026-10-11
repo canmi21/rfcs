@@ -52,9 +52,10 @@ RFCs alone.
 - **A code comment cites an RFC by id**, as a rule does, wherever it cited an issue or a todo entry.
 - **cue and still file no RFCs for now**: cue is private, and still has no spec. Their planning
   stays in their own `spec/` until either changes.
-- **The author's own public names may be written**: `canmi.net`, `canmi.app`, `monoflake.com`,
-  `monoflake.net` and `ffoni.com`, and the hosts under them. Any other host outside `references`
-  is still a reserved one.
+- **The author's own public names may be written**: `canmi.net`, `canmi.app`, `canmi.icu`,
+  `monoflake.com`, `monoflake.net`, `ffoni.com`, `ixc.one`, `ill.li` and `symlink.si`, and the hosts
+  under them. Any other host outside `references` is still a reserved one; in code, where
+  `stylex.create` is a call, only a name ending as a host commonly does is read as one.
 - **Only a landed RFC supersedes**, and only a landed one is superseded; an open RFC may name what
   it would.
 - **The RFCs filed before this one take `status: landed` and the commits they landed in**, the one
