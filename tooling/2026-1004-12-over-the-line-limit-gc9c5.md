@@ -16,7 +16,6 @@ reports it and passes, and each is split after the migration into layers rather 
 
 - `data/record/media.yaml` and `tags.yaml`, the curated records, which A2 moves into the database
   -- RFC vfusa; they leave rather than split.
-- `spec/issues/css.md`, the CSS backlog, since gone into RFCs filed under `css`.
 - six of the translation sidecars, `contents/**/*.i18n.yaml`, the longest at 9329 lines, whose shape waits
   on the segment layer's redesign -- see RFC qsizp.
 

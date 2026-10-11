@@ -1,9 +1,20 @@
 ---
 name: Planning in RFCs
 title: What is not done is an RFC with a status, blocked by others by id, and a spec says only what holds now
-status: accepted
+status: landed
 supersedes: [qp9l1]
-commits: []
+commits:
+  [
+    web@eed91b9c,
+    rfcs@3025ea23,
+    workspace@7dc6bd7a,
+    workspace@ff606cc8,
+    web@89464977,
+    platform@455f70ff,
+    infra@53188eee,
+    lib@198fb556,
+    seam@5c7ac9a0,
+  ]
 references: []
 ---
 

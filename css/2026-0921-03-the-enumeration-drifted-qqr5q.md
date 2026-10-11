@@ -1,10 +1,10 @@
 ---
 name: The Enumeration Drifted
 title: The enumeration is normative and the code has drifted from it
-status: draft
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [web@4c6ab19b]
 references: []
 ---
 
@@ -29,3 +29,9 @@ A table that is data rather than prose could be compared against what the tree d
 costs is that the enumeration stops being readable where it is argued: why `cursor` splits by site,
 why `will-change` belongs to no ramp, and the pair of mirror-image errors that placed the typography
 line all sit beside entries a machine would rather have alone.
+
+## Decision
+
+**A gate reads the enumeration.** `check-css-enumeration` holds every StyleX declaration to the
+layer the enumeration gives its property, read from web's `apps/site/scripts/css-owners.ts`, so the
+list decides and the code is held to it.

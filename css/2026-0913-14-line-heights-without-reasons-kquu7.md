@@ -1,10 +1,10 @@
 ---
 name: Line Heights Without Reasons
 title: 'A line height with no reason behind it is a lookup, not a name'
-status: draft
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [web@43c402c0]
 references: []
 ---
 
@@ -30,3 +30,10 @@ nobody chose it. Deciding it is either moving each of the three onto the scale, 
 change on at least two of them and therefore needs the gate rather than an argument, or writing
 down that a scale is allowed members nobody chose -- in which case the threshold for a name is not
 repetition alone, and web's `spec/architecture/css/extraction.md` says it is.
+
+## Decision
+
+**The ratio leaves for the scale rather than taking a name.** The type ramp was given five
+line-height steps on the ladder the two existing names already sat on, and `1.4` moved to its
+nearest, `line.snug` at 1.375, in all three blocks, with every other site off the ladder by at
+most 0.075.

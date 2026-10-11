@@ -1,10 +1,10 @@
 ---
 name: A Node Offline Misses Runs
 title: 'A node that was offline misses the runs that ended meanwhile, and whether host asks GitHub on start is open'
-status: draft
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [infra@8d8c047e, infra@d7653540]
 references: []
 ---
 
@@ -19,3 +19,11 @@ go offline -- infra's `spec/architecture/nodes.md`, `home` -- that is no longer 
 The direction is the relay's ordered log, which a node that was away catches up on by comparing its
 place with any neighbor's -- platform's `spec/architecture/relay.md`. Whether host also asks GitHub
 on start, until the relay exists, is undecided.
+
+## Decision
+
+**host asks GitHub, at start and every fifteen minutes, until the relay carries the log.** It
+lists each source's runs to deploy from the last seven days and takes the ones it has no record of,
+newer than the oldest it holds, each deploying only the apps no newer run built; a missed run that
+built host goes to keeper -- infra's `spec/architecture/host.md`, "The machine pulls; nothing pushes
+into it".

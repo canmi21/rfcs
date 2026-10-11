@@ -1,10 +1,10 @@
 ---
 name: The Three-Component Threshold
 title: 'The three-component threshold is a memory, and nothing counts the components'
-status: draft
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [web@4c6ab19b]
 references: []
 ---
 
@@ -30,3 +30,8 @@ runs `css-layers.ts`, which reads the built stylesheets and holds the order of t
 task in this repository reads a declaration's value and counts where else it is written. Deciding
 this costs a parser over the site's TypeScript, and a threshold that can fail a build is a number
 that has to be right on the days nobody is thinking about it.
+
+## Decision
+
+**A gate counts them.** `check-css-extraction` counts the components behind every name in the
+vocabulary and fails a name fewer than three reach -- web's `spec/architecture/css/procedure.md`.
