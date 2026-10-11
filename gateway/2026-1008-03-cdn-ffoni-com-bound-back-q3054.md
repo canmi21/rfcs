@@ -3,7 +3,7 @@ name: cdn.ffoni.com Bound Back
 title: 'cdn.ffoni.com is bound back until the corpus is republished without it, then released again'
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [7qrfw]
 commits: []
 references: []
 ---

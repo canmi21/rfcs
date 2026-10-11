@@ -3,7 +3,7 @@ name: "An Avatar's Placeholder"
 title: 'An avatar has no placeholder a page can paint before it arrives, and what an account holds for one is open'
 status: draft
 supersedes: []
-blocked-by: []
+blocked-by: [nzscl]
 commits: []
 references: []
 ---

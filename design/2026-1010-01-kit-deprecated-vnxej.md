@@ -3,7 +3,7 @@ name: Kit Deprecated
 title: 'Every app on the kit moves to the design system, and the kit is deprecated once nothing reads it'
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [1dhmm, 4fnln, ei71f, p6r5m]
 commits: []
 references: []
 ---
