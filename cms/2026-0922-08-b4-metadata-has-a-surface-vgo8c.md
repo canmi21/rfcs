@@ -3,7 +3,7 @@ name: 'B4: Metadata Has a Surface'
 title: "An article's path, description, publication and lock are editable where the article is"
 status: accepted
 supersedes: []
-blocked-by: [huanh]
+blocked-by: [huanh, p5tma]
 commits: []
 references: []
 ---

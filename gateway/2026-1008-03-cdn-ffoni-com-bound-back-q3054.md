@@ -2,7 +2,7 @@
 name: cdn.ffoni.com Bound Back
 title: 'cdn.ffoni.com is bound back until the corpus is republished without it, then released again'
 status: accepted
-supersedes: []
+supersedes: [0qu1p]
 blocked-by: [7qrfw]
 commits: []
 references: []

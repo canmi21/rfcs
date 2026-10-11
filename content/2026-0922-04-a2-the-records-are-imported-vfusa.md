@@ -3,7 +3,7 @@ name: 'A2: The Records Are Imported'
 title: 'What the YAML and JSON records hold moves into the authored database, and the files retire'
 status: accepted
 supersedes: []
-blocked-by: [67ity]
+blocked-by: [67ity, 5vf5e, rjw0s]
 commits: []
 references: []
 ---

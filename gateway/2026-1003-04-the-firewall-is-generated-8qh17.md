@@ -3,7 +3,7 @@ name: The Firewall Is Generated
 title: "Each service-layer zone's whitelist is written from the gateway's table and synced by a task"
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [fwzvc, hab3a]
 commits: []
 references: []
 ---

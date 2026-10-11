@@ -3,7 +3,7 @@ name: Workers onto the Deployer
 title: "The Workers move onto the platform's deployer one at a time, aka, cdn, quota and the gateway, the site last"
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [6s0e5, txsp8]
 commits: []
 references: []
 ---

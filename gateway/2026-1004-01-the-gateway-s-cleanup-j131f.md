@@ -3,7 +3,7 @@ name: "The Gateway's Cleanup"
 title: "A pass over what the gateway's move left behind and held while it ran, the last of its milestones"
 status: accepted
 supersedes: []
-blocked-by: [5c8hn]
+blocked-by: [5c8hn, 0qu1p]
 commits: []
 references: []
 ---

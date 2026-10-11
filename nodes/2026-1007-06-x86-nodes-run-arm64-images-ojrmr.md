@@ -1,10 +1,10 @@
 ---
 name: x86 Nodes Run arm64 Images
 title: 'An x86 node may run arm64 images by emulation, declared by the node and asked for by the app'
-status: accepted
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [infra@0b2771fe, platform@e535dd58, platform@681432c5]
 references: []
 ---
 

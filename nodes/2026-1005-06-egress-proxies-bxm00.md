@@ -1,10 +1,10 @@
 ---
 name: Egress Proxies
 title: "Egress proxies, and EGRESS_PROXIES in libs/deploy's GitHub client, come before gvx and bru lose IPv4"
-status: accepted
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [infra@b3bf1a63, infra@39349034]
 references: []
 ---
 

@@ -3,7 +3,7 @@ name: 'Two Scopes, One Name'
 title: 'Two scopes may hold one app name, every container, network, data directory and route keyed by both'
 status: accepted
 supersedes: []
-blocked-by: [nzscl]
+blocked-by: [nzscl, q6lab]
 commits: []
 references: []
 ---

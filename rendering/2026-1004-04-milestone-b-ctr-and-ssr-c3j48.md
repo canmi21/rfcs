@@ -3,7 +3,7 @@ name: 'Milestone B: CTR and SSR'
 title: 'A component may be declared rendered by SSR and everything else is CTR, in Node, taken forward while A is worked'
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [adio2]
 commits: []
 references: []
 ---

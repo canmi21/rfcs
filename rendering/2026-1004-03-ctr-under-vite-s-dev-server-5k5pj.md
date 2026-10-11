@@ -1,10 +1,10 @@
 ---
 name: "CTR Under Vite's Dev Server"
 title: "vite dev is taken by CTR as a compile target of its own, after A, gating the author's applications moving"
-status: accepted
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [seam@ae697f09, seam@68a3ee05, seam@31e17589]
 references: []
 ---
 

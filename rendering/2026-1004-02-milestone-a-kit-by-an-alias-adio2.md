@@ -1,10 +1,19 @@
 ---
 name: 'Milestone A: Kit by an Alias'
 title: 'An application written for Kit swaps one line of its package.json and is served by CTR, accepted by four measurements'
-status: accepted
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits:
+  [
+    seam@200cb243,
+    seam@4af4ded1,
+    seam@420da24e,
+    seam@c767bda1,
+    seam@2adacad5,
+    seam@15796e9b,
+    seam@3e6ed2cf,
+  ]
 references: []
 ---
 

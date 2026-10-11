@@ -3,7 +3,7 @@ name: 'B5: Images Are Managed'
 title: 'Upload and replace an image: new bytes, a new content, the rid repointed, derivation triggered'
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [nyqmt, p5tma]
 commits: []
 references: []
 ---

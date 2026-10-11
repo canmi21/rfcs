@@ -3,7 +3,7 @@ name: 'A5: Metadata Leaves the Text'
 title: "An article's path, description, publication, last-modified and its lock become rows, and the frontmatter empties"
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [9adnf, 8fxnq]
 commits: []
 references: []
 ---

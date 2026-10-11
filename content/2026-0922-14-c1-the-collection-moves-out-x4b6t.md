@@ -3,7 +3,7 @@ name: 'C1: The Collection Moves Out'
 title: 'The collection lives on its own, and local is the only process that may write it'
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [ex27b]
 commits: []
 references: []
 ---

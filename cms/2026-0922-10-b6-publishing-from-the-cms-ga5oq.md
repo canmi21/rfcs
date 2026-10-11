@@ -3,7 +3,7 @@ name: 'B6: Publishing From the CMS'
 title: Publication stops being only a mise task and is done from the CMS
 status: accepted
 supersedes: []
-blocked-by: [9ndcw]
+blocked-by: [9ndcw, p5tma]
 commits: []
 references: []
 ---

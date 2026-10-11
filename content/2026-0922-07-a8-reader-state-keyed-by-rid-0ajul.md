@@ -3,7 +3,7 @@ name: 'A8: Reader State Keyed by Rid'
 title: 'Counters, subscriptions and later comments are re-keyed by rid once, by the fold rule'
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [9adnf]
 commits: []
 references: []
 ---

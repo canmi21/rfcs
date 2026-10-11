@@ -3,7 +3,7 @@ name: 'C3: The Corpus Leaves Git'
 title: "History and backup of the corpus become the CMS's, never before the backup exists"
 status: accepted
 supersedes: []
-blocked-by: [45uaw]
+blocked-by: [45uaw, 8fxnq]
 commits: []
 references: []
 ---

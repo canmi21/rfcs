@@ -1,10 +1,10 @@
 ---
 name: "One Worker for Every Node's Apps"
 title: 'A Worker on the route *.canmi.app/* sends each label to the node running its app, from a table kept at runtime'
-status: accepted
+status: landed
 supersedes: []
 blocked-by: []
-commits: []
+commits: [platform@ba80ce59]
 references: []
 ---
 

@@ -3,7 +3,7 @@ name: 'C0: The Unrecomputable Backed Up'
 title: 'A real backup of the authored database, the id register and the paid outputs, before the corpus leaves git'
 status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [rjw0s]
 commits: []
 references: []
 ---

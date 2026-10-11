@@ -3,7 +3,7 @@ name: 'A7: One Rid Over Every Language'
 title: "The existing views and translations move under the article's own identity"
 status: accepted
 supersedes: []
-blocked-by: [huanh]
+blocked-by: [huanh, 9adnf]
 commits: []
 references: []
 ---
