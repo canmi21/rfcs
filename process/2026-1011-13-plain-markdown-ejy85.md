@@ -1,10 +1,10 @@
 ---
 name: Plain Markdown
 title: An RFC is plain Markdown, CommonMark with GFM, and never calls a component of the system it decides
-status: accepted
+status: landed
 supersedes: [2ut6h]
 blocked-by: []
-commits: []
+commits: [web@3790cd90]
 references:
   - url: https://spec.commonmark.org/
     took: the Markdown an RFC is written in
