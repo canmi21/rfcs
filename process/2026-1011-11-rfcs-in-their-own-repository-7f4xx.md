@@ -1,9 +1,8 @@
 ---
 name: RFCs in Their Own Repository
-title: The RFCs leave web for a repository of their own, their format's check with them, and the pages read them by path
-status: draft
+title: The RFCs leave web for rfcs, a repository of documents alone, which web's code checks and draws by path
 supersedes: [2ut6h]
-commits: []
+commits: [rfcs@df5bc9f8, web@e709cb3b, workspace@aa87cc3d]
 references:
   - url: https://github.com/rust-lang/rfcs
     took: a series' repository named for what it holds, in the plural
@@ -36,16 +35,26 @@ What the repository is called, the rest of the workspace's names being singular:
 `lib` and `web` are no precedent for the singular: a library is one collection of many packages,
 and the web is a domain, neither counted, where an RFC is one document and a repository holds many;
 the other names are domains or proper names as well. `rfcs`, then, as other series' repositories
-are named. The tasks stay `new-rfc` and `check-rfc`, since each acts on one.
+are named. `new-rfc` and `check-rfc` stay singular, since each acts on one.
 
-What a repository of their own takes:
+Where the code that checks them lives, the draft having moved it with the files:
 
-- **The files and the format's check move together**: the areas, `scopes.yaml`, `new-rfc` and
-  `check-rfc`, with the schema they hold a file to, so the repository verifies itself.
-- **The pages stay in web**, still unpublished, and read the files from the sibling checkout as
-  they read `rfcs/` now; the path is the one thing that changes, and the schema is imported from
-  there rather than kept twice.
-- **The rule that a rule cites its RFC by id moves to the workspace**, since every repository
-  follows it; web's `spec/repository.md` keeps only where its pages read from.
-- **The repository starts from the files as they are.** An RFC is not edited once decided, so its
-  history in web is the history of its filing alone, which web keeps.
+| The format's check, `new-rfc` and the schema | Against it                                                    |
+| -------------------------------------------- | ------------------------------------------------------------- |
+| In `rfcs`, beside the files                  | Code in a repository of prose, under a license made for prose |
+| In web, beside the pages, run on the sibling | `rfcs` verifies only with web cloned beside it                |
+
+## Decision
+
+A repository of their own, `rfcs`, holding documents alone.
+
+- **The RFCs are the `rfcs` repository, their areas at its root**:
+  `{scope}/{yyyy}-{mmdd}-{nn}-{slug}-{id}.md` beside `scopes.yaml`, where RFC 2ut6h filed them
+  under web's `rfcs/`.
+- **It holds documents and the few settings that check them, nothing else.** The check, `new-rfc`
+  and the schema stay in web beside the pages; the repository's `verify` and `new-rfc` run them on
+  its own checkout, so web is cloned beside it.
+- **It is licensed CC BY-NC-SA 4.0**, the one repository not MIT, since it holds no source.
+- **The pages stay in web, still unpublished**, reading the files from the sibling checkout.
+- **That a rule cites its RFC by id is the workspace's rule**, since every repository follows it.
+- **It starts from the files as they were**; their filing's history stays in web's.
