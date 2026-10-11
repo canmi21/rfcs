@@ -1,6 +1,7 @@
 ---
 name: RFCs in Their Own Repository
 title: The RFCs leave web for rfcs, a repository of documents alone, which web's code checks and draws by path
+status: landed
 supersedes: [2ut6h]
 commits: [rfcs@df5bc9f8, web@e709cb3b, workspace@aa87cc3d]
 references:

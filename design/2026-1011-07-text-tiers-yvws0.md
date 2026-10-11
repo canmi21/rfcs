@@ -1,6 +1,7 @@
 ---
 name: Text Tiers
 title: Each text tier is one APCA contrast in both themes, 60, 75, 90 and the most there is, its lightness worked back
+status: landed
 supersedes: []
 commits: [lib@f8810338]
 references:

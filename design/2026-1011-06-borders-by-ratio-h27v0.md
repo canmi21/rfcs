@@ -1,6 +1,7 @@
 ---
 name: Borders by Ratio
 title: A border is the text's own color laid thin, its dark strength set and its light's that over 1.4
+status: landed
 supersedes: []
 commits: [lib@02463ddb]
 references: []

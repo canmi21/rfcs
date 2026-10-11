@@ -1,8 +1,9 @@
 ---
 name: Drafts and Declines
 title: An open question's argument is filed as a draft RFC, which is decided in place or declined, and an issue cites it
+status: landed
 supersedes: [2ut6h]
-commits: []
+commits: [web@53241032]
 references:
   - url: https://peps.python.org/pep-0001/
     took: a proposal filed before it is decided, and one rejected kept with its reasons

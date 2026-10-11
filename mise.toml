@@ -1,10 +1,29 @@
 # Documents and nothing else: the code that holds them to their format and draws their pages is
 # web's apps/space/rfcs, run from here on this checkout, so web is cloned beside it. See RFC 7f4xx.
 
+[tasks.fmt]
+description = "Format the prose with oxfmt, the workspace's formatter for markdown: `fmt [--dry-run]`"
+usage = 'flag "-n --dry-run" help="List the files that would change and write nothing"'
+run = '''
+if [ -n "${usage_dry_run:-}" ]; then
+	oxfmt --list-different --no-error-on-unmatched-pattern '**/*.md' || true
+else
+	oxfmt --no-error-on-unmatched-pattern '**/*.md'
+fi
+'''
+
 [tasks.verify]
-description = "Check that every RFC is named, filed and written in the format"
-run = "node ../web/apps/space/rfcs/scripts/check-rfc.ts"
+description = "Check that every RFC is named, filed, written in the format and formatted"
+run = """
+set -e
+node ../web/apps/space/rfcs/scripts/check-rfc.ts
+oxfmt --check '**/*.md'
+"""
 
 [tasks.new-rfc]
-description = "Start an RFC from its name in title case: `new-rfc <name> <scope> [--draft] [--dry-run]`"
+description = "Start an RFC from its name in title case: `new-rfc <name> <scope> [--status S] [--day yyyy-mmdd] [--dry-run]`"
 run = "node ../web/apps/space/rfcs/scripts/new-rfc.ts"
+
+[tasks.plan]
+description = "What is left: the open RFCs nothing blocks, then each of the rest behind its chain"
+run = "node ../web/apps/space/rfcs/scripts/plan.ts"

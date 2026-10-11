@@ -1,8 +1,9 @@
 ---
 name: 'RFCs in Development'
 title: The RFCs are read in development alone until their pages are drawn, and cited by id everywhere
+status: landed
 supersedes: []
-commits: []
+commits: [web@6f103a5b]
 references: []
 ---
 

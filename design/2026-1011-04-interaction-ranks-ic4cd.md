@@ -1,6 +1,7 @@
 ---
 name: Interaction Ranks
 title: Every ground past the page and a card is one of four ranks of the text laid thin, the light's the dark's over 1.4
+status: landed
 supersedes: []
 commits: [lib@550ec183, lib@02463ddb]
 references: []
