@@ -1,0 +1,10 @@
+# Documents and nothing else: the code that holds them to their format and draws their pages is
+# web's apps/space/rfcs, run from here on this checkout, so web is cloned beside it. See RFC 7f4xx.
+
+[tasks.verify]
+description = "Check that every RFC is named, filed and written in the format"
+run = "node ../web/apps/space/rfcs/scripts/check-rfc.ts"
+
+[tasks.new-rfc]
+description = "Start an RFC from its name in title case: `new-rfc <name> <scope> [--draft] [--dry-run]`"
+run = "node ../web/apps/space/rfcs/scripts/new-rfc.ts"
