@@ -46,7 +46,9 @@ RFCs alone.
   RFCs nothing open blocks, and the chain behind each of the rest.
 - **A `spec/` holds what holds now.** `issues.md` and `todo.md` leave every repository, an issue
   becoming a draft and a todo entry an accepted RFC, each filed on the day it was first written as
-  near as the history shows. `roadmap.md` stays, a few lines of direction and nothing to do.
+  near as the history shows. A milestone is an accepted RFC too, the milestones chained by
+  `blocked-by`, and a finding is one RFC however small, so each can be blocked or declined alone.
+  `roadmap.md` stays, a few lines of direction and nothing to do.
 - **A code comment cites an RFC by id**, as a rule does, wherever it cited an issue or a todo entry.
 - **cue and still file no RFCs for now**: cue is private, and still has no spec. Their planning
   stays in their own `spec/` until either changes.

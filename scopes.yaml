@@ -2,4 +2,19 @@
 # touches. An area is renamed or split by moving its files, since an RFC is found by its id alone
 # and no RFC names an area; the format is RFC 2ut6h's.
 process: how the work is done, and how its decisions are recorded
-design: the design system's tokens, components and layouts
+design: the design system's tokens, components and layouts, and what moves onto it
+css: the site's CSS, its layers and the leftovers of their migration
+site: the site, its pages and routes, how it renders and how it is read
+content: the corpus and the collection, what an article is and how it is kept
+cms: the CMS, where the corpus is written and published from
+video: the video pipeline, from a clip to what a page plays
+console: the console, what it shows and where it reads it from
+space: the apex's parts, the design system's site and the RFCs' pages
+gateway: the layer in front of every service and page, and what each host answers
+services: the platform's services and what each keeps
+data: the databases, what they keep, for how long, and how their schemas change
+deploy: how an app is built, placed and deployed, and who may deploy it
+nodes: the machines, what runs on each, and how they reach each other
+rendering: compile-time rendering, its protocol and the framework around it
+testing: what is tested, how coverage is measured, and what holds a repository to it
+tooling: the tasks, gates and files that describe a repository rather than run it
