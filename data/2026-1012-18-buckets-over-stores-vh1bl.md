@@ -55,5 +55,11 @@ app should see names or content addresses.
 - **`objects.md`'s sidecar becomes a store**: Versity over a node's disk, one kind of store among
   several, behind the bucket service rather than in front of an app -- RFC cg93k. No app uses it
   yet, so nothing moves.
+- **A bucket's layout changes while it serves**, decided with the author on 2026-10-13. A layout
+  written from the console is what is wanted, and a background job copies each content address onto
+  the stores the new layout names, checks it by its hash, and only then records it there. Reads come
+  from any store holding the address meanwhile, and new writes follow the new layout. An old copy is
+  let go only once the new layout is met, and then by its store's own way of letting go. Since bytes
+  never change under an address, no copy is ever half-old, and the job is the scrub's, level-triggered.
 - **The order**: the two kinds come first, so what the platform has, and what each limit is, can be
   seen and set; the bucket service, RFC pxp3l, follows.
