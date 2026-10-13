@@ -6,6 +6,8 @@ supersedes: []
 blocked-by: [23wgz]
 commits: []
 references:
+  - url: https://developers.cloudflare.com/workers/languages/rust/
+    took: 'Rust compiled to wasm32 by workers-rs, run in the same V8 isolate as JavaScript'
   - url: https://developers.cloudflare.com/workers/platform/limits/
     took: '64 MiB of code, 128 MB of memory, 30 s of CPU by default and 5 min at most, 1 s to start, read on 2026-10-13'
   - url: https://github.com/cloudflare/workerd
@@ -23,8 +25,10 @@ what a function is and what it is given.
 
 Decided with the author on 2026-10-13.
 
-- **A function runs in an isolate, one per call, never in a container.** workerd first, so a Worker
-  written for the edge runs on a node unchanged; wasmtime with WASI later, for Rust and the rest.
+- **A function runs in an isolate, one per call, never in a container**, in workerd alone, so a Worker
+  written for the edge runs on a node unchanged. Rust is compiled to `wasm32` with `workers-rs` and
+  runs in the same isolate, as Cloudflare runs it; V8 runs Wasm itself. wasmtime waits for a need
+  only WASI's components meet.
   A service, long-running and of any language, stays a container.
 - **Its code is at most 16 MB compressed for JavaScript, and 64 MB compressed for Wasm.** The
   measure is the compressed size, not a figure that flatters it.
