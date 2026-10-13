@@ -1,7 +1,7 @@
 ---
 name: 'Stateless Steps, Stateful Ledger'
 title: 'Whether a piece of work that takes many steps runs as stateless steps, its state held in the ledger alone'
-status: draft
+status: accepted
 supersedes: []
 blocked-by: [cpc2b]
 commits: []
@@ -46,34 +46,36 @@ need to exist between those moments.
   triggers and its time limit, run per call and destroyed after. Today's `service.toml` declares a
   service that stays running; a function would be another kind of declaration.
 
-## Options
+## Decision
 
-There are two ways to keep the state, and they hold different things.
+Decided with the author on 2026-10-13.
 
-- **A run's history (Workflows, Temporal).** The state is the steps done so far and what each
-  returned, and a run resumes after the last one. This suits a sequence with an order and with
-  waits, such as an ACME order or adding a node.
-- **A chain of resources, each with a controller (cert-manager).** The state is each resource's
-  `spec` and `status`; a controller reads one, moves it a step and writes `status` back. Nothing is
-  lost when a notice is lost. This is already the shape of RFC jln34's controllers and of RFC
-  cpc2b's contract, and the console draws it as it is.
-
-**The leaning is both, each in one role.** A resource says what should be true, such as a
-certificate valid for at least another thirty days. Its controller notices drift and opens a task,
-RFC cpc2b's `202 {"task"}`. The task runs as a sequence of stateless steps. **The ledger becomes the
-coordinator**: it already keeps tasks and their ordered events for good. It would gain a step's
-lease, taken with `FOR UPDATE SKIP LOCKED`; a `run_at` timer; and what each step returned, all in
-the platform's Postgres on the cores. That is the platform's scheduler, which
-`spec/architecture/scheduling.md` describes and nobody has built, and the execution layer RFC dk6wz
-needs: what adding `sin` took by hand on 2026-10-12 is such a sequence written down.
-
-**Still open:**
-
-- Whether a task's steps are declared as data, so the console can draw a step before it runs, or
-  written as code that is replayed.
-- What runs a function: a container started per call on a node, a long-lived runner that pulls
-  steps, or Workers at the edge for a step that needs no node.
-- Whether the ledger's single writer, RFC bhybp, is fast enough for leases taken from every
-  continent.
-- How a step's output is bounded: a small result kept in the ledger, and anything larger in object
-  storage, with only its reference kept in the ledger.
+- **Resources and steps each keep one role.** A resource says what should be true, such as a
+  certificate valid for at least another thirty days. Its controller notices drift and opens a task,
+  RFC cpc2b's `202 {"task"}`, and the task runs as a sequence of stateless steps. What is wanted is
+  drawn before anything runs, from the resource; how it is being reached is drawn from the task.
+- **A task's steps are code, replayed, in Cloudflare Workflows' API**: a `WorkflowEntrypoint` whose
+  `run(event, step)` calls `step.do`, `step.sleep`, `step.sleepUntil` and `step.waitForEvent`, with
+  `step.do`'s retries and timeout as Workflows declares them. A workflow written for the edge runs on
+  a node unchanged, as a Worker does -- RFC l4s6a. A run is resumed by running its code again from
+  the top, a step already done answering what it returned then, so code outside a step must decide
+  the same way every time. The console draws a task's steps as they are recorded.
+- **A workflow and its steps run in workerd's isolates**, RFC l4s6a, each step within a call's
+  limits. Work longer than one call is more steps.
+- **The ledger is the coordinator**: it keeps each task, its events, each step's result, the
+  `run_at` a wait wakes at, and the lease a step is taken under, in the platform's Postgres.
+- **How a lease is taken is declared by the workflow, by what losing or repeating its work costs**,
+  as RFC bhybp classes every write:
+  - **`quorum`, the default.** Leases and step results are kept on the primary, confirmed by two of
+    the three cores, each lease carrying a fencing number. The scheduler on the primary's node takes
+    each lease there and hands the step to a node, which sends back its result; the next step is
+    handed out only once that result is confirmed. A node lost mid-step loses nothing: its lease
+    runs out and another node takes the step. The platform's own work -- a change to `spec`, a
+    membership, a certificate, a secret -- is always `quorum`.
+  - **`local`, for work whose loss or repetition costs nothing.** The node a run began on schedules
+    it: its leases and results are kept in that node's own store and sent on to the primary behind,
+    idempotent on their key, with no round trip before a step. A node lost holds its runs until it
+    returns, and a run lost with its disk is lost; a step may run twice.
+- **A step's result is at most 1 MiB, kept in the ledger**, Workflows' own limit. A larger one goes
+  to a bucket, RFC vh1bl, and the ledger keeps its content address. Until buckets are built, a step
+  returning more than 1 MiB fails.
