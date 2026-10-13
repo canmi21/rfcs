@@ -76,6 +76,30 @@ Decided with the author on 2026-10-13.
     it: its leases and results are kept in that node's own store and sent on to the primary behind,
     idempotent on their key, with no round trip before a step. A node lost holds its runs until it
     returns, and a run lost with its disk is lost; a step may run twice.
+- **Two kinds of lease, both supported**, decided with the author on 2026-10-13, as Temporal splits
+  a workflow task from an activity task:
+  - **A turn**, the default: a node is leased a run and replays it from the top, each `step.do`
+    answered from the ledger when it is done and run when it is not, until a sleep, a wait, a retry
+    or the end. Only replaying code knows the next step's name, so this is what keeps Workflows'
+    code unchanged.
+  - **A step**: a `step.do` that declares where it runs, `{ on: { role: "storage" } }` and the like,
+    ends the turn on a node that does not match, and the step alone is leased to one that does,
+    which runs its callback and records its result; the next turn replays on. Steps awaited together
+    are leased apart, so they run on several nodes at once. Workflows on the edge ignores `on`, so
+    the code still runs there.
+    The first slice builds the turn; the tables carry a step's own holder and fence from the start,
+    so the step lease adds no migration.
+- **A lease is handed out by push and found by poll**: the scheduler pushes a granted lease to the
+  node at once, and every node also polls every 15 to 30 seconds, so a push lost, or a node behind
+  NAT, still finds its work.
+- **The scheduler runs in the ledger on every core and acts only where Patroni answers `/primary`**,
+  so it follows the database's primary with no election of its own; the ledger is placed on all
+  three cores. A grant is one atomic statement that raises the run's fencing number, and a write
+  carrying an older one is refused `409 stale_lease`. Leases run 30 seconds on the primary's clock,
+  renewed every 10 and committed locally, since a lost renewal only shortens one; grants, results and
+  outcomes are confirmed by two of three. A node lost mid-step is not counted against the step's
+  retries, and a step started 20 times fails. New routes are `/v1`. The registry's own tasks stay
+  one-event tasks until a controller opens a run.
 - **A step's result is at most 1 MiB, kept in the ledger**, Workflows' own limit. A larger one goes
   to a bucket, RFC vh1bl, and the ledger keeps its content address. Until buckets are built, a step
   returning more than 1 MiB fails.
