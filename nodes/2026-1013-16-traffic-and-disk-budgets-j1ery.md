@@ -75,10 +75,21 @@ each way, the system's share against the apps', and the space each app takes on 
 - **The period is each node's own.** An allowance resets every month on a day of its own -- the day,
   and the hour in UTC -- given on the account and overridden on a node, since two machines of one
   provider may be billed from different days. A month that has no such day resets on its last.
-- **A running total outlives every restart.** The month's count each way is kept on disk with the
-  period it belongs to, and the kernel's counters starting again from zero when a machine boots are
-  read as a restart, never as traffic gone back; what fell between the last sample and the boot is
-  lost, and said so, rather than guessed.
+- **A running total outlives every restart, and counts nothing twice**, asked by the author on
+  2026-10-13. Four rules hold it:
+  - **Only the kernel's counter is read, never a sum of what was added.** Each interface's count since
+    boot only grows, in 64 bits, so what a sample adds is the counter now less the counter last kept;
+    a meter started again any number of times takes up from the counter it kept.
+  - **What was last kept is keyed by the boot**, the kernel's `boot_id` with the interface. The same
+    boot carries on from its counter; a new one starts from zero, and what passed between the last
+    sample and the boot -- a second at most -- is lost and said so. A counter lower than the one
+    kept within one boot, an interface made again, is read as a start from zero, never as less.
+  - **The total and the counter it was taken at are written in one transaction**, so a crash leaves
+    both or neither, and never a total that a later start would add to again.
+  - **A node reports its period's total, never an increment**, and the platform keeps the newest per
+    node and period, replacing it -- a write that can be replayed, RFC bhybp. A node that lost its
+    disk starts from the larger of its own and the platform's.
+    A sample is counted in the period its time falls in, so a period's edge is off by a second at most.
 - **A node's disk is modeled in two parts.** What the apps run from -- their images and each
   container's writable layer -- and the data the platform keeps -- each app's directory, RFC vh1bl's
   stores, a database -- each a btrfs subvolume under a quota group with a limit; and a reserve the
