@@ -1,6 +1,6 @@
 ---
 name: 'Nodes and Edges'
-title: 'Where a workload runs is a node or an edge; a node says how it is hosted, under which account, and which roles it holds'
+title: 'Where a workload runs is a node or an edge; a node says how it is hosted, its account, its failure domain and its roles'
 status: accepted
 supersedes: []
 blocked-by: [2kuvi, wkv8p]
@@ -36,15 +36,28 @@ Decided with the author on 2026-10-13.
   - **An `edge` is a serverless runtime someone else runs**, Cloudflare's Workers or Vercel: no
     machine and no host, its `spec` the provider, the account and the names of the credentials that
     reach it.
-- **A node says three things of itself, each its own field:**
+- **A node says four things of itself, each its own field:**
   - **`hosting`, `datacenter` or `selfhost`**: a provider's machine, or one in the author's own
     hands.
-  - **`account`, private**: whose account the machine is under, which is its failure domain, a
-    selfhost machine each a domain of its own as before. It is shown in the console and never
-    written into a public name.
+  - **`account`, the id of an `account` resource**, the paid account the machine is under, which
+    a `selfhost` node has none of.
+  - **`domain`, the id of a `domain` resource**, which nodes fail together, grouped by hand.
   - **`roles`, at least one, as many as it holds**: `compute`, which runs functions and services;
     `storage`, which keeps data, a store's share of its disk (RFC vh1bl) and an app's database; and
     `core`, which runs the platform's database and schedules, moved as RFC wkv8p says.
+- **An `account` is a resource of its own**, changed with the author on 2026-10-13 from a provider's
+  short code such as `oci-2`. One paid account is one account, so two at one provider are two, as
+  `tyo`'s and `sin`'s Oracle accounts are. Its `spec` is its `provider`, a whole word -- `oracle`,
+  `azure`, `racknerd`, `cloudflare` -- a `name` to read it by, and `identities`, optional and as
+  many as it has: the provider's user id, its tenancy, the email it signs in with. An identity is
+  kept in the secret service, RFC 231yq, and the account holds only its name there, as a store's
+  credentials are named and never kept, RFC vh1bl; the registry is read by the whole tailnet. An
+  `edge` names its account the same way.
+- **A `domain` is a resource of its own: what fails together, as the author groups it.** An account
+  and a domain answer different things -- an account ends with a card or a contract, a domain goes
+  down with a provider's incident or a house's power -- and often match without being the same. Each
+  node names its domain by hand; today each paid account is its domain, and each house its own. The
+  core's rule of one per failure domain, RFC wkv8p, counts this field.
 - **What a node is for is the workload's to say, not the node's.** A public service is placed on a
   `datacenter` node; data kept for the author, or a few, may be kept on a `selfhost` one. Today
   this is said by where an app is placed and which stores a bucket's layout names; when placement
