@@ -52,6 +52,12 @@ Decided with the author on 2026-10-13.
 - **A run's images gone from the bucket are a run whose artifacts expired**: catch-up and the
   newest-image-within-the-window rules read the bucket instead of GitHub's artifact list, and an
   image deleted as a third version is passed over, as an expired one is.
-- **GitHub uploads no artifact**, so the quota and its month no longer stand between a push and a
+- **The organization's repositories move; the author's own do not yet.** `monoflake/platform` and
+  `monoflake/infra` upload to the bucket. `canmi21/web` is public, where GitHub keeps artifacts
+  without charge, and `canmi21/cue` is the author's own account, whose storage is apart; both go on
+  uploading to GitHub. So a reader takes a run from the bucket when the bucket holds anything of it,
+  and from GitHub otherwise. The bucket is Backblaze B2's `build-artifact`, chosen by the author on
+  2026-10-13, reached at its S3 endpoint.
+- **GitHub uploads no artifact for those two**, so the quota and its month no longer stand between a push and a
   deploy, and host no longer spends the shared API limit downloading.
 - **Later, not now:** storing images by layer, so a base shared by many images is kept once.
