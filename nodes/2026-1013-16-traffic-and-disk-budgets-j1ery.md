@@ -69,6 +69,12 @@ each way, the system's share against the apps', and the space each app takes on 
   sent rarely and as a difference, only functions on workerd. It may receive freely where only
   egress counts.
 
+- **Each way is counted apart, and an allowance says how its provider counts.** A node's traffic is
+  always two totals, `sent` (its upload, egress) and `received` (its download, ingress), each kept
+  as the next rule says. An allowance names how they are used against it, `counts`: `egress` or
+  `ingress` alone, as Oracle and Google count egress; `sum`, the two added; or `max`, the larger of
+  the two, as some providers of small machines bill. The console draws both ways, and what is used
+  against the allowance as the provider counts it.
 - **A limit is a field of a resource, so the console and the command line set it**, asked by the
   author on 2026-10-13: a node's and an account's allowance, a node's reserve, an app's share of
   disk, each written in the registry and drawn from its catalog, RFC cpc2b.
