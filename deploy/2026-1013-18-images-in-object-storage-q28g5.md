@@ -44,7 +44,7 @@ Decided with the author on 2026-10-13.
 - **Two credentials, never one.** CI holds a key that writes, lists and deletes, as a repository
   secret; each node's host holds one that reads, in its `.env`, written by `mise run node`. Neither
   is printed or committed in the clear.
-- **host checks the run with GitHub and the bytes with the manifest.** It still asks GitHub whether
+- **host checks the run with GitHub and the bytes with their digest.** It still asks GitHub whether
   the run is its source's `deploy.yml` on `main`, finished and successful, and runs nothing
   otherwise; it then reads the run's declarations from the bucket and holds every zip to the
   digest written beside it. Whoever holds the write key can replace an image, as whoever holds
