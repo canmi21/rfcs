@@ -41,6 +41,13 @@ way round, so the console can be drawn once and follow whatever the platform com
   asks for a confirmation; and the columns a list shows first. The console draws from the catalog,
   so a field or an action added in the backend appears without a change to the console. How it looks
   is the console's alone.
+- **The console and the command line are two faces of the one API**, decided with the author on
+  2026-10-13: each reads the catalog and draws from it, a form in the console and a command, `mise
+run platform <kind> list|get|create|patch`, at the command line, so anything one can manage the
+  other can, and neither knows a kind by heart.
+- **A field the catalog marks `secret` is written and never read back**: the console draws it as a
+  password field and the command line asks for it without echoing it. Its value goes to the secret
+  service, RFC 231yq, and the resource keeps only the name it is kept under.
 - **The version is in the path, `/v1/<kind>`**, and none is inside `data`: an answer is an envelope,
   and only a record kept at rest carries a `version`. A list is `{"items": [...], "revision": n}`.
 - **The identity that writes is taken from the request, never from its body.**
