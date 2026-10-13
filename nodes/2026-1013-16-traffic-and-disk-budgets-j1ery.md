@@ -9,3 +9,65 @@ references: []
 ---
 
 ## Question
+
+The author asked on 2026-10-13 how a node's own resources are limited: measure more of its disk
+and its network, set hard limits, and hold a monthly traffic allowance -- 10 TB at Oracle, 200 GB
+at the smallest held today, and 1 GB if a free Google Cloud machine is added. The allowance is split
+between the apps and a reserve the system keeps, by a function that holds from 1 GB to 10 TB: at
+10 TB a percentage left to the system is more than it needs, and at 1 GB every megabyte counts.
+Past a limit the gateway refuses with a code of its own; later a webhook, or the provider's API
+cutting the machine off. Soft limits come first.
+
+**What is measured today** -- infra's `spec/architecture/meter.md`: every second, the bytes each way
+on the interfaces that leave the machine (a tunnel's bytes, `tailscale` among them, are already on
+the physical interface, so tunnels are left out rather than counted twice), each container's own,
+and each disk's reads and writes, kept a year at the coarsest grain. Not measured: a month's total
+each way, the system's share against the apps', and the space each app takes on disk.
+
+## Options
+
+**The leaning, not decided:**
+
+- **The system's need is a floor, not a share.** What the system sends -- the relays' snapshots to
+  eight peers every three seconds, tailscale, image pulls, packages, the database's replication --
+  follows the node's roles, not its allowance: an estimate of ten-odd gigabytes a month for the
+  mesh alone, to be measured before it is trusted. So a node's reserve is the larger of its measured
+  system traffic with a margin and a share that falls as the allowance grows:
+
+  ```
+  Q    the month's allowance, each way it is counted
+  B    the system's traffic, measured, as a month
+  p(Q) the share kept, falling with log10(Q) from 30% at 1 GB to 1% at 10 TB
+  R    = min(Q, max(1.5 B, p(Q) Q))      the reserve
+  Q-R  the apps', paced by the day: what is left over the days left
+  ```
+
+  At 10 TB that keeps 100 GB, more than the system needs; at 200 GB about 13%, or the measure if
+  larger; at 1 GB the measure decides, and a full member of the mesh does not fit at all.
+
+- **An allowance is often the account's, and counts one way.** Oracle's 10 TB and Google's 1 GB are
+  each the account's, shared by its machines, and count egress alone. So an allowance belongs to an
+  `account`, RFC 32hd9, with the direction it counts and the day it resets, and the platform shares
+  it among the account's nodes.
+- **Measured from what exists**: the physical interface's total each way, the system's containers
+  and the apps' each added up, and the machine's own -- tailscale's among it -- as what is left; a
+  month's running total each way; and each app's space on disk from btrfs's quota groups, which RFC
+  vh1bl's stores already use.
+- **Soft before hard.** At 50, 80, 95 and 100 percent of the apps' share, an event in the ledger;
+  the gateway and the scheduler send an app's traffic to its other nodes, and nothing new is placed
+  there. With the apps' share spent, the gateway answers a request for an app on that node `503`
+  with `Retry-After` until the reset and the code `quota_exhausted`; the system's traffic goes on
+  out of the reserve. A write refused for an app's disk being full is `507 Insufficient Storage`,
+  `storage_exhausted`. `509` is in no standard and is not used; `429 rate_limited` stays one
+  caller's own rate.
+- **Then the edges.** Each threshold is also a webhook -- to the author through the chat bot, `cue`.
+  Last, a cut-off by the provider's API -- stopping the machine, or taking its public address -- when
+  the reserve itself runs out, configured per account and run as a `quorum` workflow, RFC 23wgz, an
+  action that asks for confirmation, RFC cpc2b. A hard cap by nftables quota on the apps' traffic
+  alone, never the system's, sits between.
+- **A machine with too small an allowance joins lean**: one core instead of the mesh, a heartbeat
+  sent rarely and as a difference, only functions on workerd. It may receive freely where only
+  egress counts.
+
+**Still open:** the two ends of `p(Q)`; whether every allowance is an account's or some a node's;
+the margin on `B`; what a lean node gives up; which providers' APIs a cut-off speaks to first.
