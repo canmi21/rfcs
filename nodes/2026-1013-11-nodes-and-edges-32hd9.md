@@ -48,7 +48,7 @@ Decided with the author on 2026-10-13.
 - **An `account` is a resource of its own**, changed with the author on 2026-10-13 from a provider's
   short code such as `oci-2`. One paid account is one account, so two at one provider are two, as
   `tyo`'s and `sin`'s Oracle accounts are. Its `spec` is its `provider`, a whole word -- `oracle`,
-  `azure`, `racknerd`, `cloudflare` -- a `name` to read it by, and `identities`, optional and as
+  `azure`, `racknerd`, `cloudflare` -- and `identities`, its name being the resource's own, optional and as
   many as it has: the provider's user id, its tenancy, the email it signs in with. An identity is
   kept in the secret service, RFC 231yq, and the account holds only its name there, as a store's
   credentials are named and never kept, RFC vh1bl; the registry is read by the whole tailnet. An
