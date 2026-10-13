@@ -26,8 +26,18 @@ languages is the producer's type, and every other reader is derived from it".
   types it answers with and writes their JSON Schema to a committed file beside the crate.
 - **A check generates it again and fails on a difference**, so a type changed without its schema
   fails where it was changed, not in a reader later.
-- **Readers in another language are derived**: the console's TypeScript types are generated from
-  the schema, and a Python reader's tests validate their fixtures against it. Nothing is copied by
-  hand.
+- **Readers in another language are derived**, nothing copied by hand. A reader's test fixture is
+  the producer's own answer, committed and drift-checked as the schema is, since a schema holds the
+  shape and only the answer holds the values.
+- **A TypeScript reader is generated twice from the schema**, decided with the author on 2026-10-13:
+  its types, and a valibot validator, valibot being what the TypeScript code already validates with.
+  The generator is the workspace's own, over the part of JSON Schema the producers write -- objects,
+  enumerations, arrays, optional keys, references -- and refuses the rest. `ts-rs`, `specta` and
+  `typeshare` give types and no validation; Protocol Buffers fit binary RPC rather than JSON in an
+  envelope; OpenAPI describes a whole HTTP API, more than a contract needs; a schema written in
+  valibot and exported would put the source away from the producer that answers.
+- **Both languages run one set of examples**: `valid/`, the producer's committed answers among them,
+  and `invalid/` -- a key missing, a choice outside its list, an unknown key where the type forbids
+  one. The producer's tests and every reader's run them all and must agree on each.
 - **The order**: the registry's catalog first, `/v1/kinds` and a resource's envelope; then what the
   relay sends the console, replacing the hand-copied `wire.ts`.
