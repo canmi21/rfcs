@@ -48,6 +48,12 @@ run platform <kind> list|get|create|patch`, at the command line, so anything one
 - **A field the catalog marks `secret` is written and never read back**: the console draws it as a
   password field and the command line asks for it without echoing it. Its value goes to the secret
   service, RFC 231yq, and the resource keeps only the name it is kept under.
+- **A field the catalog marks `masked` is an ordinary value drawn hidden until asked for**, decided
+  with the author on 2026-10-13, when an account's identities had been made `secret` and the author
+  could no longer read their own tenancy or email back: the resource keeps it and answers it, the
+  console draws it as dots with a way to show it, and the command line prints it hidden unless told
+  to show it. What a reader of the registry may not see is `secret`; what only the screen should not
+  show at a glance is `masked`. An account's identity values are `masked`.
 - **The version is in the path, `/v1/<kind>`**, and none is inside `data`: an answer is an envelope,
   and only a record kept at rest carries a `version`. A list is `{"items": [...], "revision": n}`.
 - **The identity that writes is taken from the request, never from its body.**
