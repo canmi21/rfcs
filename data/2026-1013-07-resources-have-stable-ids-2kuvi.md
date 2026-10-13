@@ -20,10 +20,11 @@ everything the platform holds should be bound by an id instead, as Cloudflare bi
 
 Decided with the author on 2026-10-13.
 
-- **Every resource has an `id`**: 128 random bits as 32 lowercase hexadecimal digits, a version 4
-  UUID without its hyphens. It is made where the resource is made, needs no register to be unique,
-  and never changes. Version 7 is not used: it orders ids by time, which this size does not need,
-  and tells when each was made.
+- **Every resource has an `id`**: 64 random bits as 16 lowercase hexadecimal digits, `a3f8c91d7e42b650`,
+  made where the resource is made and never changed. Changed with the author on 2026-10-13 from 128
+  bits: at this platform's size, tens of millions of ids in a decade, two colliding is a chance of
+  some in a hundred thousand, and the id is unique per kind where it is kept, so one that collides
+  is refused and made again. It is no UUID, and nothing orders ids by time.
 - **Its `name` is a label**, unique within its scope and kind, and free to change.
 - **Everything that refers to a resource holds its id**: a binding, a release, a layout's store, a
   ledger task, a history row. A rename touches nothing that refers to it.
