@@ -37,7 +37,8 @@ each way, the system's share against the apps', and the space each app takes on 
   ```
   Q    the month's allowance, each way it is counted
   B    the system's traffic, measured, as a month
-  p(Q) the share kept, falling with log10(Q) from 30% at 1 GB to 1% at 10 TB
+  p(Q) the share kept, falling with log10(Q) from 30% at 1 GB to 1% at 10 TB, the ends the author
+       set on 2026-10-13
   R    = min(Q, max(1.5 B, p(Q) Q))      the reserve
   Q-R  the apps', paced by the day: what is left over the days left
   ```
@@ -102,5 +103,9 @@ each way, the system's share against the apps', and the space each app takes on 
   system keeps for images being pulled, logs and snapshots, never handed out. Whether a container's
   writable layer can be held to a limit depends on Docker's storage driver, and is to be found out.
 
-**Still open:** the two ends of `p(Q)`; how a writable layer is limited; whether every allowance is an account's or some a node's;
+**Measuring starts now**, the author said on 2026-10-13, ahead of the rest: the meter keeps each
+hour's exact bytes each way, durable across restarts by the rules above, so a period starting on any
+day and hour is the sum of its hours, and the system's share and each app's disk are measured too.
+
+**Still open:** how a writable layer is limited; whether every allowance is an account's or some a node's;
 the margin on `B`; what a lean node gives up; which providers' APIs a cut-off speaks to first.
