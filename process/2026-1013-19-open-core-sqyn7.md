@@ -34,8 +34,10 @@ plane stays private. Decided to wait until the platform runs.
 - **A public repository's CI deploys only on a push to `main`, never runs on a self-hosted runner,
   and writes the bucket with a key limited to its own prefix**, so a fork's pull request reaches no
   secret and no machine, and a public workflow cannot replace a private image.
-- **The license is open**: an open-source license, MIT, Apache-2.0 or BSD as Tailscale's client
-  uses, or a source-available one, FSL, BSL or ELv2, that turns open after a delay and forbids a
-  competing hosted service.
+- **The license is MIT, `Copyright (c) 2026 Canmi`**, as every other public repository of the
+  author's is -- decided on 2026-10-13, over a source-available one (FSL, BSL, ELv2) that would
+  forbid a competing hosted service.
+- **The SDK goes first** -- `libs/sdk` and the ledger client, the most independent part -- so a
+  public repository's CI and release are proven on the smallest piece before the services follow.
 - **Published code is reviewed for what it assumes is unseen** -- tokens, the firewall's design, the
   node's authentication -- before it is.
