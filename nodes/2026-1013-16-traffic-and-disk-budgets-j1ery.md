@@ -69,5 +69,21 @@ each way, the system's share against the apps', and the space each app takes on 
   sent rarely and as a difference, only functions on workerd. It may receive freely where only
   egress counts.
 
-**Still open:** the two ends of `p(Q)`; whether every allowance is an account's or some a node's;
+- **A limit is a field of a resource, so the console and the command line set it**, asked by the
+  author on 2026-10-13: a node's and an account's allowance, a node's reserve, an app's share of
+  disk, each written in the registry and drawn from its catalog, RFC cpc2b.
+- **The period is each node's own.** An allowance resets every month on a day of its own -- the day,
+  and the hour in UTC -- given on the account and overridden on a node, since two machines of one
+  provider may be billed from different days. A month that has no such day resets on its last.
+- **A running total outlives every restart.** The month's count each way is kept on disk with the
+  period it belongs to, and the kernel's counters starting again from zero when a machine boots are
+  read as a restart, never as traffic gone back; what fell between the last sample and the boot is
+  lost, and said so, rather than guessed.
+- **A node's disk is modeled in two parts.** What the apps run from -- their images and each
+  container's writable layer -- and the data the platform keeps -- each app's directory, RFC vh1bl's
+  stores, a database -- each a btrfs subvolume under a quota group with a limit; and a reserve the
+  system keeps for images being pulled, logs and snapshots, never handed out. Whether a container's
+  writable layer can be held to a limit depends on Docker's storage driver, and is to be found out.
+
+**Still open:** the two ends of `p(Q)`; how a writable layer is limited; whether every allowance is an account's or some a node's;
 the margin on `B`; what a lean node gives up; which providers' APIs a cut-off speaks to first.
