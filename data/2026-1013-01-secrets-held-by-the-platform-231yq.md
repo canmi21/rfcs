@@ -55,6 +55,23 @@ Decided with the author on 2026-10-13, as the most pressing thing missing.
   node.
 - **Tier 1 moves out of git as placements did**: each secret marked tier 0 or 1, tier 1 imported
   into the service, then deleted from `secrets.json` once the service answers it.
+- **The service holds an app's whole environment, each value of one of two classes**, decided with
+  the author on 2026-10-13, as a node already splits them into `config.env` and `secret.env`.
+  - **`config` is read by anyone who may read the app's values**, at any time, as written.
+  - **`secret` is never answered once written**, but to the node it is placed on, which writes it
+    into `secret.env`.
+  - **A value is `secret` unless its write declares it `config`**, so a token written in haste is
+    never exposed by default. A `secret` becomes `config` only by being written again with its value,
+    never by a flag turned, so no one shows a secret they could not already have typed.
+- **A secret can be compared without being read.** A value offered is checked against the one held,
+  in constant time, and the answer is `true` or `false` alone, the value held never replaced. It
+  takes the right to write that secret, is limited in how often it may be asked, and each comparison
+  is a row of the history -- who, when, which, and the answer -- never the value offered.
+- **One API writes values for the console and the command line alike**, RFC cpc2b. A resource's field
+  the catalog marks `secret` -- an account's identity, a store's credentials -- is written with its
+  value through the registry, which hands the value to this service and keeps only its name, never
+  storing, logging or answering the value. The registry writes with a token of its own that reaches
+  only the scope it keeps such values in, so the service grants tokens by scope.
 - **This comes before RFC 8vy7x.** Signing protects what a node is told to run. A secret's
   confidentiality comes from each node reading with its own token, and the author's own nodes are
   the only ones there are.
