@@ -14,6 +14,6 @@ The console was built for what it does ahead of how it looks, decided with the a
 
 ## Decision
 
-- **What waits for polish here**: the Nodes, Apps, Deployments and Events pages, and the pages of a node -- Overview, Apps, Events, Disk -- and of an app -- Overview, Usage, Deploy history.
+- **What waits for polish here**: the Nodes, Apps, Deployments and Events pages, a run opened from Deployments, and the pages of a node -- Overview, Apps, Events, Disk -- and of an app -- Overview, Usage, Deploy history.
 - **Done when** each is styled as the polished overview is, its `<Unpolished>` mark taken off, and
   this RFC landed with the commits that did it.
