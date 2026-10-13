@@ -1,6 +1,6 @@
 ---
 name: 'Polish the Registry Pages'
-title: "What the registry holds is drawn as it should be: a node's and an app's Spec, a node's Drift, Accounts, Domains and any kind under /kinds"
+title: "What the registry holds is drawn as it should be: a node's and an app's Spec, a node's Drift, Accounts and any kind under /kinds"
 status: accepted
 supersedes: []
 blocked-by: []
@@ -14,6 +14,6 @@ The console was built for what it does ahead of how it looks, decided with the a
 
 ## Decision
 
-- **What waits for polish here**: a node's and an app's `Spec`, read and edited from the registry's catalog; a node's `Drift`; the Accounts and Domains pages and their levels; and the pages any kind gets under `/kinds/<plural>`.
+- **What waits for polish here**: a node's and an app's `Spec`, read and edited from the registry's catalog; a node's `Drift`; the Accounts pages and their levels (Domains left on 2026-10-13, RFC 32hd9); and the pages any kind gets under `/kinds/<plural>`.
 - **Done when** each is styled as the polished overview is, its `<Unpolished>` mark taken off, and
   this RFC landed with the commits that did it.
