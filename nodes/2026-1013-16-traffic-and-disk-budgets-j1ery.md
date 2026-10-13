@@ -114,6 +114,8 @@ Insufficient Storage`, `storage_exhausted`; and a dormant node, below, is `503` 
 **Measuring starts now**, the author said on 2026-10-13, ahead of the rest: the meter keeps each
 hour's exact bytes each way, durable across restarts by the rules above, so a period starting on any
 day and hour is the sum of its hours, and the system's share and each app's disk are measured too.
+Each app's disk is counted by a btrfs quota group of its own, its snapshots with it, and held to a
+limit in three stages -- counting, soft, hard -- RFC md2hs.
 
 **Still open:** how a container's writable layer is held to a limit, which depends on Docker's
 storage driver and is being found out. **A cut-off is internal for now**, the author said on
