@@ -26,8 +26,7 @@ Decided with the author on 2026-10-13, as the most pressing thing missing.
 
 - **Secrets are of two tiers.**
   - **Tier 0** is the few that start what holds the rest: the database's and the quorum's
-    credentials, the store credentials its backups are written with, the tunnel's token, and each
-    core's share below. It stays in `secrets.json`, sops over age, committed to GitHub. GitHub is
+    credentials, the store credentials its backups are written with, and the tunnel's token. It stays in `secrets.json`, sops over age, committed to GitHub. GitHub is
     trusted until the platform is stable enough to hold itself, a bet that it fails less often than
     the platform does.
   - **Tier 1** is every other secret, held by the platform and written from the console. It never
@@ -39,8 +38,9 @@ Decided with the author on 2026-10-13, as the most pressing thing missing.
   secrets and never the reverse.
 - **Every secret is encrypted under a key of its own, and that key under the root key**, which
   lives only in the memory of the service that rebuilt it.
-- **The root key is split two of three among `tyo`, `sin` and `rdu`** by Shamir's scheme. The node
-  task writes each core's share to its disk, outside every container. Any two shares rebuild the
+- **The root key is split two of three among `tyo`, `sin` and `rdu`** by Shamir's scheme. The shares are
+  made on the cores when the lock is first set, each kept on its core's disk outside every container,
+  and never in git: the sops key day to day, with GitHub, must not rebuild the root key. Any two shares rebuild the
   root key, and from it any share lost, as a majority decides.
   - Normally all three cores answer.
   - With one core down, the two left unseal.
