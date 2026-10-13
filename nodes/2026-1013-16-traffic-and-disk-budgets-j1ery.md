@@ -39,7 +39,7 @@ each way, the system's share against the apps', and the space each app takes on 
   B    the system's traffic, measured, as a month
   p(Q) the share kept, falling with log10(Q) from 30% at 1 GB to 1% at 10 TB, the ends the author
        set on 2026-10-13
-  R    = min(Q, max(1.5 B, p(Q) Q))      the reserve
+  R    = min(Q, max(1.5 B, p(Q) Q))      the reserve, 1.5 the author's margin until measured
   Q-R  the apps', paced by the day: what is left over the days left
   ```
 
@@ -49,7 +49,8 @@ each way, the system's share against the apps', and the space each app takes on 
 - **An allowance is often the account's, and counts one way.** Oracle's 10 TB and Google's 1 GB are
   each the account's, shared by its machines, and count egress alone. So an allowance belongs to an
   `account`, RFC 32hd9, with the direction it counts and the day it resets, and the platform shares
-  it among the account's nodes.
+  it among the account's nodes. **A node may hold an allowance of its own as well**, decided with
+  the author on 2026-10-13, for a machine billed by itself: where both apply, the tighter binds.
 - **Measured from what exists**: the physical interface's total each way, the system's containers
   and the apps' each added up, and the machine's own -- tailscale's among it -- as what is left; a
   month's running total each way; and each app's space on disk from btrfs's quota groups, which RFC
@@ -62,14 +63,18 @@ each way, the system's share against the apps', and the space each app takes on 
   `storage_exhausted`. `509` is in no standard and is not used; `429 rate_limited` stays one
   caller's own rate.
 - **Then the edges.** Each threshold is also a webhook -- to the author through the chat bot, `cue`.
-  Last, a cut-off by the provider's API -- stopping the machine, or taking its public address -- when
-  the reserve itself runs out, configured per account and run as a `quorum` workflow, RFC 23wgz, an
-  action that asks for confirmation, RFC cpc2b. A hard cap by nftables quota on the apps' traffic
-  alone, never the system's, sits between.
-- **A machine with too small an allowance joins lean**: one core instead of the mesh, a heartbeat
-  sent rarely and as a difference, only functions on workerd. It may receive freely where only
-  egress counts.
-
+  Last, and not yet, a cut-off by the provider's API -- stopping the machine, or taking its public
+  address -- when the reserve itself runs out, configured per account and run as a `quorum`
+  workflow, RFC 23wgz, an action that asks for confirmation, RFC cpc2b. A hard cap by nftables quota
+  on the apps' traffic alone, never the system's, sits between.
+- **A node sleeps rather than stops**, decided with the author on 2026-10-13. A node on a small
+  allowance runs low-power: its heartbeat at half the rate, its apps running. When the resource it
+  is held to -- traffic each way, or disk -- is spent, it goes dormant: it keeps beating and answers
+  the cores for its own state, and takes no request for an app. Another node answers for it: the
+  gateway sends an app's request to a node of the app that is awake, and only where none is answers
+  `503` with `Retry-After` at the reset, its code `node_dormant`, apart from `quota_exhausted`, an
+  app's share spent on a node still awake. `502` and `504` say an upstream failed, and a dormant
+  node has not.
 - **Each way is counted apart, and an allowance says how its provider counts.** A node's traffic is
   always two totals, `sent` (its upload, egress) and `received` (its download, ingress), each kept
   as the next rule says. An allowance names how they are used against it, `counts`: `egress` or
@@ -84,9 +89,9 @@ each way, the system's share against the apps', and the space each app takes on 
   provider may be billed from different days. A month that has no such day resets on its last.
 - **A running total outlives every restart, and counts nothing twice**, asked by the author on
   2026-10-13. Four rules hold it:
-  - **Only the kernel's counter is read, never a sum of what was added.** Each interface's count since
-    boot only grows, in 64 bits, so what a sample adds is the counter now less the counter last kept;
-    a meter started again any number of times takes up from the counter it kept.
+  - **Only the kernel's counter is read, never a sum of what was added.** Each interface's count
+    since boot only grows, in 64 bits, so what a sample adds is the counter now less the counter
+    last kept; a meter started again any number of times takes up from the counter it kept.
   - **What was last kept is keyed by the boot**, the kernel's `boot_id` with the interface. The same
     boot carries on from its counter; a new one starts from zero, and what passed between the last
     sample and the boot -- a second at most -- is lost and said so. A counter lower than the one
@@ -95,8 +100,8 @@ each way, the system's share against the apps', and the space each app takes on 
     both or neither, and never a total that a later start would add to again.
   - **A node reports its period's total, never an increment**, and the platform keeps the newest per
     node and period, replacing it -- a write that can be replayed, RFC bhybp. A node that lost its
-    disk starts from the larger of its own and the platform's.
-    A sample is counted in the period its time falls in, so a period's edge is off by a second at most.
+    disk starts from the larger of its own and the platform's. A sample is counted in the period its
+    time falls in, so a period's edge is off by a second at most.
 - **A node's disk is modeled in two parts.** What the apps run from -- their images and each
   container's writable layer -- and the data the platform keeps -- each app's directory, RFC vh1bl's
   stores, a database -- each a btrfs subvolume under a quota group with a limit; and a reserve the
@@ -107,5 +112,7 @@ each way, the system's share against the apps', and the space each app takes on 
 hour's exact bytes each way, durable across restarts by the rules above, so a period starting on any
 day and hour is the sum of its hours, and the system's share and each app's disk are measured too.
 
-**Still open:** how a writable layer is limited; whether every allowance is an account's or some a node's;
-the margin on `B`; what a lean node gives up; which providers' APIs a cut-off speaks to first.
+**Still open:** how a container's writable layer is held to a limit, which depends on Docker's
+storage driver and is being found out. **A cut-off is internal for now**, the author said on
+2026-10-13: the gateway and the node stop an app's traffic themselves, and no provider's API is
+spoken to until one is needed.
