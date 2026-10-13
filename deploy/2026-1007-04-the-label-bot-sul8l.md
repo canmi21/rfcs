@@ -1,7 +1,7 @@
 ---
 name: The Label Bot
 title: "A bot turns a console change to a label into a pull request on the app's repository"
-status: accepted
+status: declined
 supersedes: []
 blocked-by: []
 commits: []

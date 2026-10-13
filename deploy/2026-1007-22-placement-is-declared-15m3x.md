@@ -1,7 +1,7 @@
 ---
 name: Placement Is Declared
 title: 'An app declares where it may run, a group and a place, never which nodes, and host deploys it where it matches'
-status: accepted
+status: declined
 supersedes: []
 blocked-by: []
 commits: []

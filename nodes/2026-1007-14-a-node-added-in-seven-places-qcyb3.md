@@ -1,9 +1,9 @@
 ---
 name: A Node Added in Seven Places
-title: 'A node is added by hand wherever the nodes are listed, and how it joins while everything runs is open'
-status: draft
+title: "A node is added once, in the platform's registry, and found while everything runs by whatever lists the nodes"
+status: accepted
 supersedes: []
-blocked-by: []
+blocked-by: [ja5hm]
 commits: []
 references:
   - url: https://developers.cloudflare.com/workers-vpc/configuration/vpc-networks/
@@ -29,7 +29,7 @@ What deciding it involves:
 
 - **The registry**: the nodes and their facts in the cluster, written once when a node is added, with
   `nodes.toml` either its source or replaced by it.
-- **Placement by declaration**, already decided and waiting as its own RFC.
+- **Placement**, which RFC ja5hm moves out of the declarations and into the platform.
 - **Relays learning peers at runtime**, from the registry or from each other, instead of a file read
   at start.
 - **The console reading the node list** from the relay's state, the facts and places with it, instead
@@ -40,3 +40,22 @@ What deciding it involves:
   any tunnel routes, named at runtime by the URL fetched, so each node's tunnel routing an address of
   its own would let one binding reach every node, a new one included, with the deployer admitting that
   one binding rather than a list -- in beta, free while it is, as of 2026-10-08.
+
+## Evidence
+
+Bringing `sin` up on 2026-10-12 touched the same places and three more: the database proxy's
+members and the egress proxies of the nodes without IPv4, each read at start, and the console's
+flags, a table of countries no test held to the nodes. `mise run node --all` rewrote every node's
+relay peers and recreated every host to read them; two hosts were busy deploying and had to be asked
+again by hand.
+
+## Decision
+
+- **A node is added once, in the platform's registry** -- RFC ja5hm -- its name, tier, domain,
+  expiry, system and place, and nothing else lists the nodes.
+- **What lists the nodes reads the registry while it runs**: a relay's peers, the database proxy's
+  members, the egress proxies, the console's nodes with their facts and places.
+- **The Workers reach every node through one VPC Network binding**, each node's tunnel routing an
+  address of its own, so a new node redeploys no Worker and the deployer admits one binding. Taken in
+  beta, knowingly; should it be withdrawn, the deployer writes each node's VPC Service binding from
+  the registry at deploy, which ja5hm already asks of it.
