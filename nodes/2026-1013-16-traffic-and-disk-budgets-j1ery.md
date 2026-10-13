@@ -57,11 +57,14 @@ each way, the system's share against the apps', and the space each app takes on 
   vh1bl's stores already use.
 - **Soft before hard.** At 50, 80, 95 and 100 percent of the apps' share, an event in the ledger;
   the gateway and the scheduler send an app's traffic to its other nodes, and nothing new is placed
-  there. With the apps' share spent, the gateway answers a request for an app on that node `503`
-  with `Retry-After` until the reset and the code `quota_exhausted`; the system's traffic goes on
-  out of the reserve. A write refused for an app's disk being full is `507 Insufficient Storage`,
-  `storage_exhausted`. `509` is in no standard and is not used; `429 rate_limited` stays one
-  caller's own rate.
+  there. **Three codes, decided with the author on 2026-10-13**, each with its own code in the
+  envelope: an app's share of traffic spent on a node is `509 Bandwidth Limit Exceeded`,
+  `quota_exhausted` -- in no RFC, but what hosting has long answered, and a client that does not
+  know it reads it as `500` (RFC 9110); a write refused for an app's disk being full is `507
+Insufficient Storage`, `storage_exhausted`; and a dormant node, below, is `503` with
+  `Retry-After`, `node_dormant`, the one of the three that is temporary by definition. The system's
+  traffic goes on out of the reserve. `429 rate_limited` stays one caller's own rate, and `520` to
+  `530` are Cloudflare's own and never used.
 - **Then the edges.** Each threshold is also a webhook -- to the author through the chat bot, `cue`.
   Last, and not yet, a cut-off by the provider's API -- stopping the machine, or taking its public
   address -- when the reserve itself runs out, configured per account and run as a `quorum`
@@ -72,8 +75,8 @@ each way, the system's share against the apps', and the space each app takes on 
   is held to -- traffic each way, or disk -- is spent, it goes dormant: it keeps beating and answers
   the cores for its own state, and takes no request for an app. Another node answers for it: the
   gateway sends an app's request to a node of the app that is awake, and only where none is answers
-  `503` with `Retry-After` at the reset, its code `node_dormant`, apart from `quota_exhausted`, an
-  app's share spent on a node still awake. `502` and `504` say an upstream failed, and a dormant
+  `503` with `Retry-After` at the reset, its code `node_dormant`, apart from `509 quota_exhausted`,
+  an app's share spent on a node still awake. `502` and `504` say an upstream failed, and a dormant
   node has not.
 - **Each way is counted apart, and an allowance says how its provider counts.** A node's traffic is
   always two totals, `sent` (its upload, egress) and `received` (its download, ingress), each kept
