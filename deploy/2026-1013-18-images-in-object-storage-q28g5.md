@@ -33,20 +33,21 @@ Decided with the author on 2026-10-13.
   Which provider is the author's, chosen apart; nothing is written against one, and the bucket is
   reached by the S3 API alone, its endpoint, region and bucket configured.
 - **Two versions of each image are kept: the newest and the one before.** After a run uploads an
-  image, the versions of that repository's app and architecture older than the newest two are
-  deleted. A day's volume then cannot outgrow the bucket: two of every image is at most 5.4 GB
+  image or a Worker, that artifact's versions in its repository older than the newest two runs are
+  deleted, and a run's `declarations` once none of its images is left. A day's volume then cannot outgrow the bucket: two of every image is at most 5.4 GB
   today. Older versions are not needed to go back, since host keeps the previous image on the node.
   A time limit was rejected: one busy day outgrows any short one.
-- **The key is the run's**: `<owner>/<repo>/<run>/<artifact>`, the artifact named as today,
-  `deploy-<app>-<arch>`, beside the run's `declarations` and a `manifest.json` listing each object's
-  SHA-256.
+- **The key is the run's**: `<owner>/<repo>/<run>/<artifact>.zip`, the artifact named as today --
+  `declarations`, `deploy-<app>-<arch>`, `worker-<app>` -- and zipped as GitHub zipped it, so what
+  reads it unpacks it as before. Beside each, `<artifact>.json` holds its `sha256` and `size`,
+  written by the job that uploaded it, after the zip.
 - **Two credentials, never one.** CI holds a key that writes, lists and deletes, as a repository
   secret; each node's host holds one that reads, in its `.env`, written by `mise run node`. Neither
   is printed or committed in the clear.
 - **host checks the run with GitHub and the bytes with the manifest.** It still asks GitHub whether
   the run is its source's `deploy.yml` on `main`, finished and successful, and runs nothing
-  otherwise; it then reads the run's manifest and declarations from the bucket and holds every
-  image to the manifest's digest. Whoever holds the write key can replace an image, as whoever holds
+  otherwise; it then reads the run's declarations from the bucket and holds every zip to the
+  digest written beside it. Whoever holds the write key can replace an image, as whoever holds
   CI can today, so that key is kept as CI's own.
 - **A run's images gone from the bucket are a run whose artifacts expired**: catch-up and the
   newest-image-within-the-window rules read the bucket instead of GitHub's artifact list, and an
