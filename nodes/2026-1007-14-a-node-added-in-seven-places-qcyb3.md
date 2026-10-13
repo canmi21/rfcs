@@ -53,6 +53,8 @@ again by hand.
 
 - **A node is added once, in the platform's registry** -- RFC ja5hm -- its name, tier, domain,
   expiry, system and place, and nothing else lists the nodes.
+- **A node leaves by being marked `retired`**, never by its record going missing, so a write that
+  drops a node by mistake disconnects nothing -- RFC jln34.
 - **What lists the nodes reads the registry while it runs**: a relay's peers, the database proxy's
   members, the egress proxies, the console's nodes with their facts and places.
 - **The Workers reach every node through one VPC Network binding**, each node's tunnel routing an

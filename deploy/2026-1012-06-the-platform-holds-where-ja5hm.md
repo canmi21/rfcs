@@ -45,6 +45,7 @@ what it points at and hands it over when it deploys.
   until the store answers.
 - **A change is a row appended, never one overwritten**: who, when, what was and what is. It is the
   history git gave, and any earlier state can be read back and put back.
+- **How what runs comes to match it is RFC jln34**: a controller in every layer.
 - **A change reaches what reads it while it runs.** Peers, a proxy's members, the egress proxies and
   the console's nodes are read again when they change, and nothing restarts for them.
 - **The console writes it directly**, with no pull request and no bot, in place of RFC sul8l, declined.

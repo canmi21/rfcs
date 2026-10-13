@@ -3,7 +3,7 @@ name: The Console Operates Every Plane
 title: 'Every act that changes a node, the platform or an app is done from the console, a task over the same API kept as the way in'
 status: accepted
 supersedes: []
-blocked-by: [ja5hm, qcyb3]
+blocked-by: [qcyb3, jln34, cpc2b]
 commits: []
 references: []
 ---
@@ -29,8 +29,8 @@ Before it, the primary had been the emulated `buf` for a day and a half, and not
   tunnel, its first host; on the platform -- where an app runs, its labels, what a repository is
   granted, the database's switchover and members; on an app -- deploying, redeploying, rolling back,
   stopping and starting, its environment and secrets.
-- **A write goes where RFC ja5hm puts it**: what the platform holds to its store, an act on a running
-  app to that node's host.
+- **A write goes where RFC ja5hm puts it**, as a change to what is wanted wherever it can be one, in
+  the shape RFC cpc2b gives every kind, and answers a task the ledger records.
 - **A task stays the way in when the console cannot be reached**, calling the same API, never a second
   path that writes differently.
 - **Only the author writes, behind Access, until accounts exist**, so this waits on no account system.
