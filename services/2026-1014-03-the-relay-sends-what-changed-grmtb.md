@@ -48,12 +48,16 @@ beside relays one step behind it during a rollout, negotiated in the stream's fi
    the stream is never too short to compress.
 7. **A relay reads its host by what is new**: events after the last id read, and apps by an ETag,
    not the newest page every round -- infra's half.
-8. **The second phase: beats and small deltas over UDP, whole nodes over TCP**, as HashiCorp's
-   memberlist splits gossip from state sync: a beat or a delta that fits one datagram inside the
-   tailnet's MTU, about 1,280 bytes, goes by UDP, latest wins and a lost one is superseded or caught
-   by the next sync; a whole node, a resend and the sync's answer go by the stream. A beat then
-   reaches a peer while its stream is stalled, which is what liveness needs. Built after step 7 is
-   measured, on the same versions and digests.
+8. **The second phase: beats over UDP, everything else over the stream**, as HashiCorp's memberlist
+   splits gossip from state sync, and as the author put it, a UDP heartbeat beside a TCP sync. A
+   beat, 0.5 to 1 KB, fits one datagram inside the tailnet's MTU of 1,280 bytes, latest wins, and a
+   lost one is superseded by the next; so a beat reaches a peer while its stream is stalled -- `rdu`
+   held one at a congestion window of 1 and a 26-second retransmit -- which is what liveness needs.
+   Deltas stay on the stream, since each needs its base applied first and the stream compresses
+   them five to eight times; so do whole nodes and the sync. Each datagram carries a MAC and a
+   sequence against replay, `12012/udp` is granted beside the stream's port, and a path through
+   DERP gains nothing, since DERP carries datagrams over TCP. Built after step 7, and only if a node
+   with a live socket is still seen `late` once step 1's writer is in.
 
 Expected, per node a day: 19.6 GB today; about 2.4 after step 4; about 1.6 after step 6; about
 0.5 after step 7. Across nine: about 134 GB a day to about 3.
