@@ -1,6 +1,6 @@
 ---
-name: "Restores and Restore Drills"
-title: "A backup is restored, and proved by restoring it, only by hand with WAL-G, and whether a restore and a scheduled drill become workflows is open"
+name: 'Restores and Restore Drills'
+title: 'A backup is restored, and proved by restoring it, only by hand with WAL-G, and whether a restore and a scheduled drill become workflows is open'
 status: draft
 supersedes: []
 blocked-by: [23wgz]

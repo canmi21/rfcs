@@ -1,6 +1,6 @@
 ---
 name: Workers Reaching Postgres
-title: "How a Worker at the edge reaches Postgres on the nodes, direct or through Hyperdrive, is open until measured"
+title: 'How a Worker at the edge reaches Postgres on the nodes, direct or through Hyperdrive, is open until measured'
 status: draft
 supersedes: []
 blocked-by: []
@@ -16,7 +16,7 @@ measured.
 
 ## Options
 
-| How a Worker reaches Postgres  | What it is                                                         |
-| ------------------------------ | ------------------------------------------------------------------ |
-| Directly, over Workers VPC     | TCP to the node, every query paying the distance                   |
-| Through Hyperdrive             | Pooled and cached connections in front of the same private database |
+| How a Worker reaches Postgres | What it is                                                          |
+| ----------------------------- | ------------------------------------------------------------------- |
+| Directly, over Workers VPC    | TCP to the node, every query paying the distance                    |
+| Through Hyperdrive            | Pooled and cached connections in front of the same private database |

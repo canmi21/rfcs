@@ -1,5 +1,5 @@
 ---
-name: "Failover After Two Cores Lost"
+name: 'Failover After Two Cores Lost'
 title: "With two cores lost the database waits for a person's forced failover, which has no path but a shell in its container, and what guarded act replaces the shell is open"
 status: draft
 supersedes: []

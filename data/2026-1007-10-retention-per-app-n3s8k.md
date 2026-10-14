@@ -1,6 +1,6 @@
 ---
 name: Retention per App
-title: "Every bucket keeps what it deleted for seven days, and where an app declares a period of its own is open"
+title: 'Every bucket keeps what it deleted for seven days, and where an app declares a period of its own is open'
 status: draft
 supersedes: []
 blocked-by: []

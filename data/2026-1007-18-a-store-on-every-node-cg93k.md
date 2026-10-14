@@ -1,6 +1,6 @@
 ---
 name: A Store on Every Node
-title: "Every node gets a store on its own disk, S3 over its filesystem"
+title: 'Every node gets a store on its own disk, S3 over its filesystem'
 status: accepted
 supersedes: []
 blocked-by: [u7prm]

@@ -1,13 +1,13 @@
 ---
-name: "Secrets Held by the Platform"
-title: "The platform holds every secret but the few that start it, sealed by a key two of the three cores rebuild and one offline key opens alone"
+name: 'Secrets Held by the Platform'
+title: 'The platform holds every secret but the few that start it, sealed by a key two of the three cores rebuild and one offline key opens alone'
 status: accepted
 supersedes: []
 blocked-by: [ja5hm]
 commits: []
 references:
   - url: https://developer.hashicorp.com/vault/docs/concepts/seal
-    took: 'a root key split by Shamir''s scheme and held only in memory once rebuilt, every secret encrypted beneath it'
+    took: "a root key split by Shamir's scheme and held only in memory once rebuilt, every secret encrypted beneath it"
   - url: https://getsops.io
     took: 'the secrets that start the system, committed as ciphertext to an age key, which is how they are kept today'
 ---

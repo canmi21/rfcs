@@ -1,5 +1,5 @@
 ---
-name: "SQLite First, Postgres Added"
+name: 'SQLite First, Postgres Added'
 title: "An app's database is an embedded SQLite with one writer, kept durable off its node, and Postgres is a capability added when it declares one"
 status: accepted
 supersedes: []

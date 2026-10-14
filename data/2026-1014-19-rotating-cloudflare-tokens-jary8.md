@@ -1,5 +1,5 @@
 ---
-name: "Rotating Cloudflare Tokens"
+name: 'Rotating Cloudflare Tokens'
 title: "The platform's three Cloudflare tokens are made, rotated and handed out by hand, and whether the platform mints and rotates them itself is open"
 status: draft
 supersedes: []
@@ -13,11 +13,11 @@ references: []
 Three Cloudflare tokens do the platform's work at the edge, each made in Cloudflare's dashboard and
 kept in the platform's sops file:
 
-| Token                      | Who uses it                                        | Where it is put                           |
-| -------------------------- | -------------------------------------------------- | ----------------------------------------- |
-| `CLOUDFLARE_WORKERS_TOKEN` | the deployer, deploying every Worker               | the deployer's `secret.env`, by hand      |
-| `CLOUDFLARE_NODES_TOKEN`   | `mise run tunnel`, a node's tunnel and VPC service | the laptop, decrypted when the task runs  |
-| `CLOUDFLARE_ZONES_TOKEN`   | `mise run rules sync`, every zone's firewall       | the laptop, decrypted when the task runs  |
+| Token                      | Who uses it                                        | Where it is put                          |
+| -------------------------- | -------------------------------------------------- | ---------------------------------------- |
+| `CLOUDFLARE_WORKERS_TOKEN` | the deployer, deploying every Worker               | the deployer's `secret.env`, by hand     |
+| `CLOUDFLARE_NODES_TOKEN`   | `mise run tunnel`, a node's tunnel and VPC service | the laptop, decrypted when the task runs |
+| `CLOUDFLARE_ZONES_TOKEN`   | `mise run rules sync`, every zone's firewall       | the laptop, decrypted when the task runs |
 
 Rotating one is the dashboard, `mise run secret`, and the deployer's `secret.env` written by hand --
 row S6 of platform's `spec/architecture/operations.md`, with no RFC. It is rare, which is the risk:

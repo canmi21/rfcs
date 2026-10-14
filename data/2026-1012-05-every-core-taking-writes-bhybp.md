@@ -1,5 +1,5 @@
 ---
-name: "Every Core Taking Writes"
+name: 'Every Core Taking Writes'
 title: 'One core writes; what must not be disputed is confirmed by two of the three cores, the rest written and read near'
 status: accepted
 supersedes: []
@@ -7,7 +7,7 @@ blocked-by: []
 commits: []
 references:
   - url: https://www.postgresql.org/docs/current/logical-replication-subscription.html
-    took: "`origin = none`, which lets two servers subscribe to each other without sending a change back, so writes can go both ways; conflicts are logged, not prevented"
+    took: '`origin = none`, which lets two servers subscribe to each other without sending a change back, so writes can go both ways; conflicts are logged, not prevented'
   - url: https://github.com/aws/pgactive
     took: 'an active-active extension under Apache 2.0, resolving a conflict by the last update'
   - url: https://www.postgresql.org/docs/current/runtime-config-replication.html#GUC-SYNCHRONOUS-STANDBY-NAMES

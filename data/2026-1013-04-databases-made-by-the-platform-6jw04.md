@@ -1,5 +1,5 @@
 ---
-name: "Databases Made by the Platform"
+name: 'Databases Made by the Platform'
 title: "A database is made, placed and kept by the platform through its API, its engine is the code's to declare, and moving engines is a migration with a short stop"
 status: accepted
 supersedes: []
@@ -40,4 +40,5 @@ Decided with the author on 2026-10-13.
   7. The SQLite file is kept for some days, for going back.
 
   The stop lasts seconds to minutes, by the size of the data.
+
 - **It is built when an app first outgrows SQLite**, not before: most never will.

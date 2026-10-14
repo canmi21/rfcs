@@ -1,5 +1,5 @@
 ---
-name: "Buckets Over Stores"
+name: 'Buckets Over Stores'
 title: "A bucket is the platform's abstraction an app sees, a store is where bytes are, and both are resources the console holds with their limits"
 status: accepted
 supersedes: []

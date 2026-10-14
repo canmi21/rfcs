@@ -1,6 +1,6 @@
 ---
-name: "Resources Have Stable Ids"
-title: "Every resource the platform holds has an id that never changes, its name a label that may, and everything that refers to it holds the id"
+name: 'Resources Have Stable Ids'
+title: 'Every resource the platform holds has an id that never changes, its name a label that may, and everything that refers to it holds the id'
 status: accepted
 supersedes: []
 blocked-by: [cpc2b]
