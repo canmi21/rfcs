@@ -29,10 +29,27 @@ beside relays one step behind it during a rollout, negotiated in the stream's fi
    holds, `/runs?since=`, answered from memory as every relay answer is; `/live` and the mesh carry
    each node's runs version instead, a few bytes that move only at a deploy, and a page reads again
    when one moves.
-3. **A new version only when content changes**: apps, the machine's `info`, `stale` and `leaving` are the
-   content; the machine's `sample` and `round_trip` leave it and ride a **beat**, every three seconds,
-   latest wins, outside the version. `heard_at` is the latest beat held, so `live` within 10 seconds,
-   `late` within 60 and the leaving announcement keep their meaning.
+3. **A new version only when content changes, and the readings kept where they are taken.** Apps,
+   the machine's `info`, `stale` and `leaving` are the content. The machine's readings -- CPU,
+   memory, load, network -- leave the snapshot, decided with the author on 2026-10-14:
+   - **The node keeps its own, in the meter, rolled up as they age**: every one to three seconds
+     for the last 15 minutes, in memory; a minute's mean and maximum for a day, and fifteen
+     minutes' for twelve, on the meter's disk; older gone, or summed hourly into the platform's
+     Postgres where kept for longer. The meter is infra, beneath the platform, so it keeps them in
+     a store of its own and never in the platform's databases or buckets, which run on top of it --
+     RFCs 6jw04 and vh1bl are for apps above the line.
+   - **The mesh carries a beat and a minute.** A **beat**, a few dozen bytes every three seconds,
+     says only that a node is alive, so `live` within 10 seconds, `late` within 60 and the leaving
+     announcement keep their meaning; once a minute each node sends its readings' mean and maximum,
+     so every relay holds a coarse copy of every node.
+   - **Fine readings are drawn while someone looks.** A page open on a node subscribes through its
+     relay to that node's, a lease of 60 seconds renewed while the page stays; the origin streams its
+     readings every few seconds to that relay alone, and stops when the lease lapses. A history is
+     asked of the origin through the mesh and answered from its meter; an origin that does not
+     answer is answered from the minutes every relay holds. This is the one read that does not
+     answer from memory alone, an exception to relay.md's rule, and only for a page that asked.
+   - **A threshold is judged on the node**, a reading high for long enough becoming content -- a
+     new version, sent at once -- so an alarm needs nobody watching.
 4. **Full once, then only what changed, per connection.** Each connection keeps, per node, the
    version its other end holds; one that holds nothing is sent the node whole, and after that a
    delta from the version it holds, rows of apps diffed by name. **A delta names the version it
