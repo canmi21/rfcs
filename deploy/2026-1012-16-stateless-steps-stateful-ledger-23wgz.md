@@ -103,3 +103,28 @@ Decided with the author on 2026-10-13.
 - **A step's result is at most 1 MiB, kept in the ledger**, Workflows' own limit. A larger one goes
   to a bucket, RFC vh1bl, and the ledger keeps its content address. Until buckets are built, a step
   returning more than 1 MiB fails.
+- **The second slice, the executor, decided with the author on 2026-10-14**:
+  - **It runs on Node now and moves to workerd later**, split where RFC l4s6a will cut: a runner,
+    `libs/replay`, that replays one turn with web APIs alone -- `fetch`, timers, `AbortSignal`, no
+    `node:` module -- and a resident driver, `apps/compute/executor`, that polls, takes pushes,
+    renews every 10 seconds and keeps to its capacity, each turn in a `worker_threads` Worker with a
+    128 MB heap standing in for an isolate. A workflow imports `cloudflare:workers` and
+    `cloudflare:workflows`, mapped to the platform's own modules under Node, and reaches services
+    only through `this.env`. Once workerd runs functions the runner moves and the driver stays.
+  - **A step's callback has at most 5 minutes**, l4s6a's limit, already under Node, so code written
+    now runs in workerd unchanged; Workflows' default `timeout` reads as 5 minutes, and longer work
+    starts asynchronously and is waited for.
+  - **The node-placed step lease is in this slice**: `step.do(name, {on: {node}}, ...)` is leased to
+    an executor on that node alone, as the step lease above, placed by node first and by role later.
+  - **The first workflow is `mirror`**: after the database's base backup, each `store` mirrors it
+    and the run ends when every one has. The store's 12:00 schedule stays as the fallback for two
+    weeks of runs that end `done`, and is then removed.
+  - **A push is a doorbell**: the executor polls for the turn it rings for, and the ledger pushes
+    only to the executor on its own node, the rest finding theirs within the 15 to 30 second poll.
+  - **An executor names the workflows it can run in each poll**, and a run is granted only to one
+    that names its workflow, so a rollout never hands a new workflow to an old executor.
+  - **Workflow code lives in the executor**, `workflows/<service>/`, until l4s6a's deployments carry a
+    function's code apart; a run replayed by newer code that disagrees fails `replay_diverged` and is
+    opened again by hand, each lease recording the executor's build.
+  - **The executor reaches a node's socket services under the `scheduler` role**, as `cron` does,
+    until a second holder needs less.
