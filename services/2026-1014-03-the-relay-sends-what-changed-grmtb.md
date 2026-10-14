@@ -68,8 +68,10 @@ beside relays one step behind it during a rollout, negotiated in the stream's fi
 6. **`/live` is Server-Sent Events**, not a WebSocket: it only ever sent one way, and as an event
    stream Caddy compresses it with no setting of its own. Its first event is the whole cluster, so
    the stream is never too short to compress.
-7. **A relay reads its host by what is new**: events after the last id read, and apps by an ETag,
-   not the newest page every round -- infra's half.
+7. **Not built: a relay reads its host whole every round.** Reading by what is new -- events after
+   the last id, apps by an ETag -- was dropped with the author on 2026-10-14: the read crosses only
+   the node's Docker bridge, is never billed, costs a few milliseconds a round, and would be no
+   fresher. Reopened only if a profile shows host or the relay spending real time on it.
 8. **The second phase: beats over UDP, everything else over the stream**, as HashiCorp's memberlist
    splits gossip from state sync, and as the author put it, a UDP heartbeat beside a TCP sync. A
    beat, 0.5 to 1 KB, fits one datagram inside the tailnet's MTU of 1,280 bytes, latest wins, and a
