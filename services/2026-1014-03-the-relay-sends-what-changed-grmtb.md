@@ -83,3 +83,12 @@ beside relays one step behind it during a rollout, negotiated in the stream's fi
 
 Expected, per node a day: 19.6 GB today; about 2.4 after step 4; about 1.6 after step 6; about
 0.5 after step 7. Across nine: about 134 GB a day to about 3.
+
+**Steps 4 to 6 are built 5, then 4, then 6**, decided with the author on 2026-10-14 once step 3 was
+built. Step 3 left the mesh about 7 KB/s a node, most of it the comparison, a message of the same
+shape every two seconds that a zstd stream takes from about 900 bytes to about 150; step 4 alone
+would save about 0.15 GB a day a node and leave that message uncompressed. Step 4 then rides the
+compressed stream, its worth the digest's repair more than its bytes; `/live` as SSE saves least,
+for the most changed in step with the console. Churn step 3 did not plan for -- a part read stale
+now and then, an alarm cycling -- is fixed before any of them, since each flip is a whole node to
+every neighbor that none of the three removes.
