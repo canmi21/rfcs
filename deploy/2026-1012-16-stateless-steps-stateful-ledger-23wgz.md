@@ -114,6 +114,11 @@ Decided with the author on 2026-10-13.
   - **A step's callback has at most 5 minutes**, l4s6a's limit, already under Node, so code written
     now runs in workerd unchanged; Workflows' default `timeout` reads as 5 minutes, and longer work
     starts asynchronously and is waited for.
+  - **A turn has a limit too**, decided with the author on 2026-10-14: code outside a step's callback
+    has 5 minutes without a step asking the ledger, and past it the executor ends the turn and tells
+    the ledger it stalled. **A run whose last five turns stalled three times fails**, `turn_stalled`:
+    stalling is the code's own doing, so it is given up on sooner than a step whose holders were
+    lost, which keeps its twenty starts. A turn cut off by a node lost or stopped is not a stall.
   - **The node-placed step lease is in this slice**: `step.do(name, {on: {node}}, ...)` is leased to
     an executor on that node alone, as the step lease above, placed by node first and by role later.
   - **The first workflow is `mirror`**: after the database's base backup, each `store` mirrors it
