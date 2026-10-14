@@ -34,8 +34,8 @@ beside relays one step behind it during a rollout, negotiated in the stream's fi
    memory, load, network -- leave the snapshot, decided with the author on 2026-10-14:
    - **The node keeps its own, in the meter, rolled up as they age**: every one to three seconds
      for the last 15 minutes, in memory; a minute's mean and maximum for a day, and fifteen
-     minutes' for twelve, on the meter's disk; older gone, or summed hourly into the platform's
-     Postgres where kept for longer. The meter is infra, beneath the platform, so it keeps them in
+     minutes' for twelve, on the meter's disk; hours kept in the meter's own file as today, never
+     in the platform's Postgres, decided with the author on 2026-10-14. The meter is infra, beneath the platform, so it keeps them in
      a store of its own and never in the platform's databases or buckets, which run on top of it --
      RFCs 6jw04 and vh1bl are for apps above the line.
    - **The mesh carries a beat and a minute.** A **beat**, a few dozen bytes every three seconds,
@@ -44,12 +44,17 @@ beside relays one step behind it during a rollout, negotiated in the stream's fi
      so every relay holds a coarse copy of every node.
    - **Fine readings are drawn while someone looks.** A page open on a node subscribes through its
      relay to that node's, a lease of 60 seconds renewed while the page stays; the origin streams its
-     readings every few seconds to that relay alone, and stops when the lease lapses. A history is
-     asked of the origin through the mesh and answered from its meter; an origin that does not
-     answer is answered from the minutes every relay holds. This is the one read that does not
-     answer from memory alone, an exception to relay.md's rule, and only for a page that asked.
+     readings every few seconds to that relay alone, and stops when the lease lapses. **A history
+     is read from the origin's host through its own binding, as the console already reads it**, and
+     only an origin that does not answer is answered from the minutes the nearest relay holds; no
+     request crosses the mesh for it, decided with the author on 2026-10-14 over asking the origin
+     through the mesh, which reached the same meter by a new path.
    - **A threshold is judged on the node**, a reading high for long enough becoming content -- a
-     new version, sent at once -- so an alarm needs nobody watching.
+     new version, sent at once -- so an alarm needs nobody watching. Judged by the relay on the
+     meter's minutes, the meter staying an instrument, with the values the author chose on
+     2026-10-14: CPU mean at or above 90% for five minutes, memory used at or above 90% for five
+     minutes, storage used at or above 90% at once, and any temperature zone at or above 85 C for
+     five minutes.
 4. **Full once, then only what changed, per connection.** Each connection keeps, per node, the
    version its other end holds; one that holds nothing is sent the node whole, and after that a
    delta from the version it holds, rows of apps diffed by name. **A delta names the version it
