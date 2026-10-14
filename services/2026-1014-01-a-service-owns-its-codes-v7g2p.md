@@ -39,3 +39,9 @@ program's.
   used, and lib's next major drops them, the old `Code` kept one minor as a deprecated alias so a
   consumer moves when it moves. The ledger's five codes are the first a service declares itself,
   and never enter lib.
+- **The reading of a service's codes moves into lib with that major**: what parses a service's
+  `codes.json`, answers `failure` and `failure_with` by its status, and finds the codes a source
+  names, as the ledger's `src/codes.rs` does first, becomes the `response` crate's and its
+  TypeScript half's, and every service with codes of its own takes it there; `failure` in
+  TypeScript then takes any well-formed code, and lib's `spec/response/envelope.md` stops holding
+  every code to its four families. Decided with the author on 2026-10-14.
