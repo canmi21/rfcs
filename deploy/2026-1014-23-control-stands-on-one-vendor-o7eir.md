@@ -64,12 +64,15 @@ Decided with the author on 2026-10-14.
   A secret of what runs on the platform -- an app's values, the keys that encrypt a store -- never
   reaches the vendor, which has no use for it: the secret service on our nodes keeps them, and tier 1
   moving out of `secrets.json` into it, as RFC 231yq decides, goes ahead.
-- **A node is its id, and the id is its key's.** Each node makes an Ed25519 key pair and keeps the
-  private half; its id is the first 64 bits of the public key's SHA-256, sixteen hex digits, so a
-  node proves its id by its key and is added or removed as one row. Beside the id a node has a
-  `city`, capitalized and free to repeat -- two nodes may both be `Tokyo` -- a `country` and a
-  `continent` as two-letter codes, and the coordinates the registry already keeps. The three-letter
-  names retire: the database never has them, and the nodes drop them in a step of their own.
+- **A node is its id, and its key is a field beside it.** The id is the sixteen hex digits the
+  registry already gave it, kept so a node's history and every placement naming it stay as they
+  are. Each node makes an Ed25519 key pair and keeps the private half; the public half is a field
+  of the node's row, so a node proves itself by signing, the key can be replaced at any time and
+  rotated on a schedule, and the id never moves. A node is added or removed as one row. Beside the
+  id a node has a `city`, capitalized and free to repeat -- two nodes may both be `Tokyo` -- a
+  `country` and a `continent` as two-letter codes, and the coordinates the registry already keeps.
+  The three-letter names retire: the database never has them, and the nodes drop them in a step of
+  their own.
 - **One node speaks to control for the cluster, every five minutes.** It is the live node with the
   lowest id in relay's mesh, the next taking over when it goes; two speaking at once is harmless. Its
   beat carries the mesh's view of every node, so control knows each node, not only the speaker, and
