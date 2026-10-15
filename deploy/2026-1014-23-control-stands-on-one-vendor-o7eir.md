@@ -1,6 +1,6 @@
 ---
 name: 'Control Stands on One Vendor'
-title: "The platform's control runs on Cloudflare's serverless primitives and schedules our own nodes, which build the abstractions above it; a second vendor waits until the platform is stable"
+title: "The platform's control runs as two Workers over one D1 database in a Cloudflare account of its own, on the free plan, and one node speaks to it for the cluster"
 status: accepted
 supersedes: []
 blocked-by: []
@@ -23,43 +23,68 @@ stores, storage encrypted at rest, a browser to call without paying per use -- a
 platform could stand on a vendor's shoulders for control, as Railway runs its API on a cloud and its
 work on its own machines.
 
+The first answer reached for every primitive the vendor sells -- Durable Objects, Queues, Workflows
+-- and moved the secret store there too. The author asked what starting would cost on the free plan
+and on the $5 one, whether those primitives were needed at all, and drew the line the decision
+below keeps: a part of control depends on a third-party cloud, and what runs on the platform depends
+on ourselves.
+
 ## Decision
 
-Decided with the author on 2026-10-14, in five stages, each built on the one before.
+Decided with the author on 2026-10-14.
 
-- **Stage 1: control is built on Cloudflare's serverless primitives.** The platform's records and
-  acts -- the registry, the ledger and the scheduler, the secret store, the deployer, and one door
-  in front of them -- run as Workers over D1, Durable Objects and their alarms, Queues and Workflows,
-  using those primitives rather than rebuilding them; the bill is the control's alone and small. The
-  nodes keep what they last read and run without it, as host does today: control lost stops change,
-  never service. A secret is stored sealed, its key held by the nodes, so the vendor holds only
-  ciphertext.
-- **Stage 2: one model.** The cluster depends on that one vendor for control, and our nodes are the
-  pool it schedules: host converges a node on what control wants, and an executor on a node takes
-  the steps control hands out. What the nodes ran only to keep control alive -- the control
-  databases' high availability, their quorum, the manual rollouts of the apps control stands on --
-  goes with it.
-- **Stage 3: one binding layer.** An app declares what it binds -- a database, a bucket, a queue, a
-  browser, a function -- and the platform resolves each to the vendor's native service or to one of
-  our nodes', so a Worker and a node service, ours or a hosted project's, deploy side by side in one
-  layer. A hosted project's Workers live in a Cloudflare account other than the one control and the
-  platform's own foundation live in, so nothing a hosted project does reaches the foundation.
-- **Stage 4: the layers below are replaced without the app seeing it.** Object storage and an app's
-  database gain what the vendor's lack or charge for: encryption before data leaves the app, keys
-  held by us; compression; content addressing, so content is placed, spread over several stores,
-  joined and moved -- hot -- without its address changing. Backups follow from it: a store is one
-  more place content is held.
-- **Stage 5: only once the platform is stable, and carries enough that one vendor is the risk, a
-  second vendor** takes a share of control and of egress. Until then a vendor's name stays at the
-  binding edge, as `spec/naming.md` requires, so a second vendor is one more adapter, never a
-  rewrite.
-- **The move is one part at a time, the old part retired only after the new one carries the
-  load**: the registry first, smallest and already read by host with its last answer kept; then the
-  secret store; then the ledger and the scheduler; then the deployer. Each step is deployable alone,
-  host changing only where it reads.
-- **What this revisits**: RFC xsarw's ledger in the cluster, bhybp's every core taking writes,
-  wkv8p's core as a registry role and 231yq's custody of secrets are taken up again against stage 1,
-  and the drafts d8orh and f4czw are likely made moot by stage 2; each is superseded, if it is, by
-  the RFC that moves its part. RFC bz8nz's measure stands: the count of acts done by hand.
-- **Moving the task writers onto the secret service is paused** until stage 1 says where a secret
-  is kept; host's reading of the service stays, the place it reads from to change.
+- **The direction is five stages, each built on the one before.** Control is built on Cloudflare's
+  serverless primitives and schedules our nodes; then one model, the cluster depending on that one
+  vendor for control and our nodes the pool it schedules, what the nodes ran only to keep control
+  alive going with it; then one binding layer, an app declaring a database, a bucket or a browser and
+  the platform resolving it to the vendor's service or a node's; then the layers below replaced
+  without the app seeing it -- encryption with our keys, compression, content addressing, hot moves
+  between stores, backups as one more store; and only once the platform is stable and carries enough
+  that one vendor is the risk, a second vendor for control and egress. A vendor's name stays at the
+  binding edge until then, so a second vendor is one more adapter.
+- **Control has a Cloudflare account of its own**, `monoflake`, made beside the account that holds
+  the author's sites and the projects the platform hosts, so nothing a hosted project does reaches
+  control or its quota. Its domains are `monoflake.net`, moved first -- its `api` and `cdn` twins dark
+  meanwhile, nobody asking them while `monoflake.com` answers -- and `monoflake.com` once the
+  platform's own hosts follow. The Workers answer on the subdomain Cloudflare gives the account until the zone is active.
+- **The account starts on the free plan, and a feature is used only once it is confirmed free and
+  failing closed** -- an exceeded limit an error, never a charge: Workers, D1 and its read replicas,
+  Cron Triggers, service bindings, static assets and Smart Placement all qualify. Moving to the $5
+  plan, a request budget and its alarms are decided once control runs and carries load, not before.
+- **Stage 1 is two Workers and one database, nothing else.** `control` is the API that controls the
+  platform itself -- distinct from the gateway, the API the platform serves -- and the only binding to
+  the database; `console` serves the console and reaches `control` by a service binding. The database
+  is D1, `control`, placed in western North America (`wnam`), the middle of the nodes it answers, with
+  Smart Placement keeping `control` near it. Durable Objects, Queues and Workflows are not used: a
+  revision is a conditional `UPDATE`, a timer is a cron, and a step runs on our nodes through the
+  executor, never on the vendor's. R2 waits until something needs it.
+- **Only control's own secrets are on Cloudflare**, as Worker secrets, the vendor trusted with them.
+  A secret of what runs on the platform -- an app's values, the keys that encrypt a store -- never
+  reaches the vendor, which has no use for it: the secret service on our nodes keeps them, and tier 1
+  moving out of `secrets.json` into it, as RFC 231yq decides, goes ahead.
+- **A node is its id, and the id is its key's.** Each node makes an Ed25519 key pair and keeps the
+  private half; its id is the first 64 bits of the public key's SHA-256, sixteen hex digits, so a
+  node proves its id by its key and is added or removed as one row. Beside the id a node has a
+  `city`, capitalized and free to repeat -- two nodes may both be `Tokyo` -- a `country` and a
+  `continent` as two-letter codes, and the coordinates the registry already keeps. The three-letter
+  names retire: the database never has them, and the nodes drop them in a step of their own.
+- **One node speaks to control for the cluster, every five minutes.** It is the live node with the
+  lowest id in relay's mesh, the next taking over when it goes; two speaking at once is harmless. Its
+  beat carries the mesh's view of every node, so control knows each node, not only the speaker, and
+  the answer carries the registry's revision, which the speaker pulls when it differs and spreads
+  over the mesh. Beats between nodes, telemetry and liveness stay in the mesh and never reach the
+  vendor.
+- **Control acts when the beats stop.** A cron every five minutes marks the cluster lost after three
+  beats missed, then calls the other nodes in turn, from the last beat's addresses, to take over
+  speaking; when none answers, it tells the author.
+- **A change made in the console is one call, whole without the browser.** The browser calls
+  `console`'s own API behind Cloudflare Access, whose token the Worker verifies again; `console`
+  calls `control`, which writes the change to D1 by a conditional `UPDATE` on the revision, pushes it
+  to the speaking node signed with control's key, and answers. The write is the change; the push
+  only hastens it, and a push lost is caught by the next beat's revision. Access signs in by GitHub,
+  the author alone admitted, once its free plan is confirmed as above. A console reading live data
+  reads it from our nodes, not from control.
+- **The move is one part at a time, the old part retired only after the new one carries the load**:
+  the registry first, host reading both and acting on the new one only once they agree, as the
+  secret service's reads did, and the cores' registry retired after; then the console; the ledger's
+  place is decided after that. RFC bz8nz's measure stands: the count of acts done by hand.
