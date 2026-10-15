@@ -71,8 +71,12 @@ Decided with the author on 2026-10-14.
   rotated on a schedule, and the id never moves. A node is added or removed as one row. Beside the
   id a node has a `city`, capitalized and free to repeat -- two nodes may both be `Tokyo` -- a
   `country` and a `continent` as two-letter codes, and the coordinates the registry already keeps.
-  The three-letter names retire: the database never has them, and the nodes drop them in a step of
-  their own.
+  The three-letter names retire as keys -- in control, in placements, in relay's mesh, in the secret
+  service's paths and in the console -- in the same cut that moves the registry, decided with the
+  author on 2026-10-15; they stay only as a machine's hostname, the name an operator reaches it by.
+- **Where an app runs is control's to hold, not a declaration's.** An app's placements are node ids
+  in control, changed through control; a `service.toml` names no node, and says only that an app
+  runs as a Worker. The cut seeds control's placements once from the declarations as they stood.
 - **One node speaks to control for the cluster, every five minutes.** It is the live node with the
   lowest id in relay's mesh, the next taking over when it goes; two speaking at once is harmless. Its
   beat carries the mesh's view of every node, so control knows each node, not only the speaker, and
@@ -89,7 +93,9 @@ Decided with the author on 2026-10-14.
   only hastens it, and a push lost is caught by the next beat's revision. Access signs in by GitHub,
   the author alone admitted, once its free plan is confirmed as above. A console reading live data
   reads it from our nodes, not from control.
-- **The move is one part at a time, the old part retired only after the new one carries the load**:
-  the registry first, host reading both and acting on the new one only once they agree, as the
-  secret service's reads did, and the cores' registry retired after; then the console; the ledger's
-  place is decided after that. RFC bz8nz's measure stands: the count of acts done by hand.
+- **The registry moves in one cut, the platform's service paused for it**, decided with the author on
+  2026-10-15 since nothing depends on it yet: control takes writes, every reader and writer -- host,
+  relay, the secret service, the deployer, the operator's tasks, the console -- moves to it and to
+  node ids at once, a last import copies the registry, and the cores' registry stops. host's shadow
+  read, which agreed with the registry on `nrt` before the cut, is how the cut is checked. The
+  ledger's place is decided after that. RFC bz8nz's measure stands: the count of acts done by hand.
