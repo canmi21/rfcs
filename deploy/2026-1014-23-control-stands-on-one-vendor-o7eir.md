@@ -46,7 +46,9 @@ Decided with the author on 2026-10-14.
   the author's sites and the projects the platform hosts, so nothing a hosted project does reaches
   control or its quota. Its domains are `monoflake.net`, moved first -- its `api` and `cdn` twins dark
   meanwhile, nobody asking them while `monoflake.com` answers -- and `monoflake.com` once the
-  platform's own hosts follow. The Workers answer on the subdomain Cloudflare gives the account until the zone is active.
+  platform's own hosts follow. `monoflake.net` is control's alone: the console at its apex, locked by Cloudflare Access, until
+  a public page takes the apex and sends a signed-in visitor on to it; the control API at
+  `control.monoflake.net`, outside Access, since a node proves itself by its key.
 - **The account starts on the free plan, and a feature is used only once it is confirmed free and
   failing closed** -- an exceeded limit an error, never a charge: Workers, D1 and its read replicas,
   Cron Triggers, service bindings, static assets and Smart Placement all qualify. Moving to the $5
