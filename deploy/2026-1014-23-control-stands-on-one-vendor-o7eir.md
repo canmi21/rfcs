@@ -66,6 +66,13 @@ Decided with the author on 2026-10-14.
   of its own only when one is worth it. The public gateway, `api.monoflake.com` and `.net`, depends
   on this layer and is taken up only once it is stable; until then the declarations keep the node
   lists it reads.
+- **Every node holds two tunnels for now, one in each account**, decided with the author on
+  2026-10-15: `canmi`, the account the gateway, the hook, the router and the sites live in, and
+  `monoflake`, control's. A tunnel and its VPC service cannot move between accounts, and the
+  router's `canmi.app` stays in the first, so the console moves to `monoflake` -- the Worker
+  `console` at the apex of `monoflake.net` behind Access -- over tunnels of its own, while the
+  first set serves what has not moved. One set is left once the public gateway is rebuilt. Workers
+  VPC is free on every plan while it is in beta; its price after is weighed then.
 - **Only control's own secrets are on Cloudflare**, as Worker secrets, the vendor trusted with them.
   A secret of what runs on the platform -- an app's values, the keys that encrypt a store -- never
   reaches the vendor, which has no use for it: the secret service on our nodes keeps them, and tier 1
