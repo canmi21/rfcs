@@ -60,6 +60,12 @@ Decided with the author on 2026-10-14.
   Smart Placement keeping `control` near it. Durable Objects, Queues and Workflows are not used: a
   revision is a conditional `UPDATE`, a timer is a cron, and a step runs on our nodes through the
   executor, never on the vendor's. R2 waits until something needs it.
+- **`control.monoflake.net` is control and the lower layer's gateway in one**, decided with the author
+  on 2026-10-15: every address is `/v{n}/{scope}/*`, the registry the scope `registry`, so the
+  layer's services share one door and one way of proving who calls. A scope is split into a Worker
+  of its own only when one is worth it. The public gateway, `api.monoflake.com` and `.net`, depends
+  on this layer and is taken up only once it is stable; until then the declarations keep the node
+  lists it reads.
 - **Only control's own secrets are on Cloudflare**, as Worker secrets, the vendor trusted with them.
   A secret of what runs on the platform -- an app's values, the keys that encrypt a store -- never
   reaches the vendor, which has no use for it: the secret service on our nodes keeps them, and tier 1
