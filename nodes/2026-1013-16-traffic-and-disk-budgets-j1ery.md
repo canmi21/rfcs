@@ -61,7 +61,7 @@ each way, the system's share against the apps', and the space each app takes on 
   envelope: an app's share of traffic spent on a node is `509 Bandwidth Limit Exceeded`,
   `quota_exhausted` -- in no RFC, but what hosting has long answered, and a client that does not
   know it reads it as `500` (RFC 9110); a write refused for an app's disk being full is `507
-Insufficient Storage`, `storage_exhausted`; and a dormant node, below, is `503` with
+  Insufficient Storage`, `storage_exhausted`; and a dormant node, below, is `503` with
   `Retry-After`, `node_dormant`, the one of the three that is temporary by definition. The system's
   traffic goes on out of the reserve. `429 rate_limited` stays one caller's own rate, and `520` to
   `530` are Cloudflare's own and never used.

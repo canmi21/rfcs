@@ -32,7 +32,7 @@ capitals for the same reason, so its inset is its sides'.
 
 - **An inset is measured to what is drawn**: words to their capitals, a shape to its edge.
 - **The top gives back the room its first line leaves over the capitals**, `(1lh -
-var(--font-sans-cap-height)) / 2` in that line's own size, the sans's real capitals rather than
+  var(--font-sans-cap-height)) / 2` in that line's own size, the sans's real capitals rather than
   Chrome's `cap`, which reads them too tall, so the capitals stand as far in as the words at the sides and the shapes
   at the foot. A box set in a size of its own for this is set in its first line's.
 - **A shape beside that line stands out of it as it must**, centered on it, rather than making the

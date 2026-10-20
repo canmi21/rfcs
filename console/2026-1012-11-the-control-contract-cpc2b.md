@@ -43,7 +43,7 @@ way round, so the console can be drawn once and follow whatever the platform com
   is the console's alone.
 - **The console and the command line are two faces of the one API**, decided with the author on
   2026-10-13: each reads the catalog and draws from it, a form in the console and a command, `mise
-run platform <kind> list|get|create|patch`, at the command line, so anything one can manage the
+  run platform <kind> list|get|create|patch`, at the command line, so anything one can manage the
   other can, and neither knows a kind by heart.
 - **A field the catalog marks `secret` is written and never read back**: the console draws it as a
   password field and the command line asks for it without echoing it. Its value goes to the secret

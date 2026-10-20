@@ -28,7 +28,7 @@ Decided with the author on 2026-10-13.
 
 - **Compute has three forms, and two kinds underneath.** A **function** is an isolate per call, RFC
   l4s6a. A **service** is a container of its own, in any language. A service with `min_instances =
-0` **sleeps** when idle; one with `min_instances` of one or more is **resident**. A sleeping
+  0` **sleeps** when idle; one with `min_instances` of one or more is **resident**. A sleeping
   service is not a third runtime but a service's setting, so host learns to freeze, stop and wake
   rather than to keep a third kind of environment.
 - **Something is a service, never a function, if any one of these holds**: it runs a native process

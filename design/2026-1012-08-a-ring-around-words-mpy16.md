@@ -46,10 +46,10 @@ every side at all seven sizes.
 
 - **A ring on bare words is on their ink**: their box trimmed to their capitals above, and below to
   their baseline, or to their descent where a letter falls below it, `text-box: trim-both cap
-alphabetic` or `cap text`.
+  alphabetic` or `cap text`.
 - **It stands one fixed room off that ink on every side, `0.25rem`**, at every size, its top
   brought down by what Chrome's `cap` reads over the sans's real capitals, `1cap -
-var(--font-sans-cap-height)`.
+  var(--font-sans-cap-height)`.
 - **The ring is a mark that takes no room**, a pseudo-element set out from the ink, so the words
   stay where they are, and a top that must reach past the trim can.
 - **Its corner grows with the words, `2/7em`**: 0.25rem at `body`, about 3.4px at `caption` and 9px
